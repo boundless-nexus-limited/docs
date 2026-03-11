@@ -57,6 +57,19 @@
             ]
           },
           {
+            "group": "BoundlessPay API",
+            "pages": [
+              "api-reference/countries/overview",
+              "api-reference/currencies/overview",
+              "api-reference/networks-and-addresses/overview",
+              "api-reference/payout/overview",
+              "api-reference/webhook/overview",
+              "api-reference/collections/bank-collection/overview",
+              "api-reference/collections/card-collection/overview",
+              "api-reference/sub-accounts/overview"
+            ]
+          },
+          {
             "group": "Endpoint examples",
             "pages": [
               "api-reference/endpoint/get",
