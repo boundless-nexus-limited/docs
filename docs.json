@@ -71,14 +71,14 @@
               {
                 "group": "Countries",
                 "pages": [
-                  "untitled-page"
+                  "api-reference/countries/get"
                 ]
               },
               {
                 "group": "Currencies",
                 "pages": [
-                  "get-currencies",
-                  "create-a-currencie",
+                  "api-refrence/currencies/get",
+                  "api-refrence/create-a-currencie/post",
                   "create-a-q"
                 ]
               },
