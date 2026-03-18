@@ -71,23 +71,23 @@
               {
                 "group": "Countries",
                 "pages": [
-                  "api-reference/countries/get"
+                  "api-reference/countries/countries"
                 ]
               },
               {
                 "group": "Currencies",
                 "pages": [
-                  "api-reference/currencies/create-a-quote",
-                  "api-reference/currencies/create-a-conversion",
-                  "api-reference/currencies/get-currencies"
+                  "api-reference/currencies/createAquote",
+                  "api-reference/currencies/createAconversion",
+                  "api-reference/currencies/getcurrencies"
                 ]
               },
               {
                 "group": "Sub Accounts",
                 "pages": [
-                  "api-reference/subAccount/get-sub-accounts",
-                  "api-reference/subAccount/get-a-sub-account",
-                  "api-reference/subAccount/create-a-sub-account"
+                  "api-reference/subAccount/getsubaccounts",
+                  "api-reference/subAccount/getAsubaccount",
+                  "api-reference/subAccount/createAsubaccount"
                 ]
               },
               {
