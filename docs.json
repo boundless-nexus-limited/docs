@@ -77,17 +77,17 @@
               {
                 "group": "Currencies",
                 "pages": [
-                  "api-refrence/currencies/get",
-                  "api-refrence/create-a-currencie/post",
-                  "create-a-q"
+                  "api-reference/currencies/create-a-quote",
+                  "api-reference/currencies/create-a-conversion",
+                  "api-reference/currencies/get-currencies"
                 ]
               },
               {
                 "group": "Sub Accounts",
                 "pages": [
-                  "untitled-page",
-                  "get-sub-accounts",
-                  "get-a-sub-account"
+                  "api-reference/subAccount/get-sub-accounts",
+                  "api-reference/subAccount/get-a-sub-account",
+                  "api-reference/subAccount/create-a-sub-account"
                 ]
               },
               {
