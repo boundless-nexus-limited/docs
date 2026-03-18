@@ -1,0 +1,135 @@
+---
+title: "openai.json"
+mode: "default"
+---
+
+```json
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "BoundlessPay API",
+    "version": "1.0.0",
+    "description": "API for retrieving supported countries"
+  },
+
+
+   "paths": {
+    "/v1/countries": {
+      "get": {
+        "summary": "Get countries",
+        "description": "Retrieve a list of supported countries",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful response with list of countries",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Countries"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "NGA"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Nigeria"
+                          },
+                          "currencyCode": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "dialCode": {
+                            "type": "string",
+                            "example": "234"
+                          },
+                          "flag": {
+                            "type": "string",
+                            "example": "assets/flags/nga.png"
+                          },
+                          "active": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized – invalid client credentials"
+          }
+        }
+      }
+    },
+
+    "/v1/currencies": {
+      "get": {
+        "description": "Retrieve a list of supported fiat and crypto currencies",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Filter by currency type (crypto or fiat)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["crypto", "fiat"]
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "description": "Filter by currency code (e.g., NGN, BTC)",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Currencies retrieved succe
+```
