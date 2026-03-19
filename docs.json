@@ -93,12 +93,10 @@
               {
                 "group": "Checkout",
                 "pages": [
-                  "create-an-order",
-                  "get-order",
-                  "get-an-order",
-                  "pay-order-with-card",
-                  "pay-order-with-bank-transfer",
-                  "get-order-payment-status"
+                  "api-reference/checkout/pay-order-with-bank-transfer",
+                  "api-reference/checkout/create-an-order",
+                  "api-reference/checkout/get-orders",
+                  "api-reference/checkout/get-an-order"
                 ]
               },
               {
