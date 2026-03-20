@@ -1,22 +1,15 @@
----
-title: "openai.json"
-mode: "default"
----
 
-```json
 {
   "openapi": "3.1.0",
   "info": {
     "title": "BoundlessPay API",
-    "version": "1.0.0",
-    "description": "API for retrieving supported countries"
+    "version": "1.0.0"
   },
 
 
    "paths": {
     "/v1/countries": {
       "get": {
-        "summary": "Get countries",
         "description": "Retrieve a list of supported countries",
         "parameters": [],
         "responses": {
@@ -29,11 +22,11 @@ mode: "default"
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "example": true
+                      "examples": [true]
                     },
                     "message": {
                       "type": "string",
-                      "example": "Countries"
+                      "examples": ["Countries"]
                     },
                     "data": {
                       "type": "array",
@@ -42,31 +35,31 @@ mode: "default"
                         "properties": {
                           "id": {
                             "type": "integer",
-                            "example": 1
+                            "examples": [1]
                           },
                           "code": {
                             "type": "string",
-                            "example": "NGA"
+                            "examples": ["NGA"]
                           },
                           "name": {
                             "type": "string",
-                            "example": "Nigeria"
+                            "examples": ["Nigeria"]
                           },
                           "currencyCode": {
                             "type": "string",
-                            "example": "NGN"
+                            "examples": ["NGN"]
                           },
                           "dialCode": {
                             "type": "string",
-                            "example": "234"
+                            "examples": ["234"]
                           },
                           "flag": {
                             "type": "string",
-                            "example": "assets/flags/nga.png"
+                            "examples": ["assets/flags/nga.png"]
                           },
                           "active": {
                             "type": "boolean",
-                            "example": true
+                            "examples": [true]
                           },
                           "createdAt": {
                             "type": "string",
@@ -99,7 +92,6 @@ mode: "default"
         }
       }
     },
-
     "/v1/currencies": {
       "get": {
         "description": "Retrieve a list of supported fiat and crypto currencies",
@@ -124,12 +116,810 @@ mode: "default"
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Currencies retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/currencies/conversion": {
+      "post": {
+        "summary": "Create a conversion",
+        "description": "Convert one currency to another",
         "security": [
           {
             "ApiKeyAuth": []
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Currencies retrieved succe
-```
+            "description": "Conversion successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currencies/quotation": {
+      "post": {
+        "summary": "Create a quote",
+        "description": "Generate a currency conversion quote",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Quote created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sub-accounts": {
+      "post": {
+        "summary": "Create a Sub Account",
+        "description": "Creates a new sub-account linked to the authenticated business account using the provided email.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "examples": ["nwakasistephenifeanyi2@gmail.com"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sub-account created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "examples": [true]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": ["Sub-account created successfully"]
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "reference": {
+                          "type": "string",
+                          "examples": ["vl035tap5ocfofjb"]
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email",
+                          "examples": ["nwakasistephenifeanyi2@gmail.com"]
+                        },
+                        "status": {
+                          "type": "string",
+                          "examples": ["pending"]
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["success", "message", "data"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (email already exists, invalid format, etc.)",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - missing or invalid credentials"
+          },
+          "403": {
+            "description": "Forbidden - account type not allowed to create sub-accounts"
+          },
+          "409": {
+            "description": "Conflict - email already in use"
+          }
+        }
+      },
+      "get": {
+        "summary": "List Sub Accounts",
+        "description": "Retrieve a paginated list of sub-accounts belonging to the authenticated business. Optional filters supported.",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Filter by sub-account email (exact match)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          {
+            "name": "reference",
+            "in": "query",
+            "description": "Filter by sub-account reference",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (starts from 1)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sub-accounts retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "examples": [true]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": ["Sub-accounts retrieved"]
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": { "type": "integer" },
+                        "page": { "type": "integer" },
+                        "limit": { "type": "integer" },
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["success", "message", "data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+   "/v1/sub-accounts/{reference}": {
+      "get": {
+        "summary": "Get a Single Sub Account",
+        "description": "Retrieve detailed information about a specific sub-account by its reference ID.",
+        "parameters": [
+          {
+            "name": "reference",
+            "in": "path",
+            "required": true,
+            "description": "Unique reference of the sub-account",
+            "schema": {
+              "type": "string",
+              "examples": ["vl035tap5ocfofjb"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sub-account details retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "examples": [true]
+                    },
+                    "message": {
+                      "type": "string",
+                      "examples": ["Sub-account found"]
+                    },
+                    "data": {},
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["success", "message", "data"]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Sub-account not found or not accessible",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/orders": {
+      "post": {
+        "description": "Create a new order",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reference": { "type": "string" },
+                  "currency_code": { "type": "string", "examples": ["NGN"] },
+                  "amount": { "type": "number", "examples": [5000] },
+                  "description": { "type": "string" },
+                  "customer": {
+                    "type": "object",
+                    "properties": {
+                      "first_name": { "type": "string" },
+                      "last_name": { "type": "string" },
+                      "email": { "type": "string" },
+                      "phone_number": { "type": "string" }
+                    }
+                  },
+                  "metadata": { "type": "object" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Order created successfully" },
+          "401": { "description": "Unauthorized" }
+        }
+      },
+      "get": {
+        "description": "Retrieve all orders",
+        "parameters": [
+          { "name": "page", "in": "query", "schema": { "type": "integer" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer" } },
+          { "name": "status", "in": "query", "schema": { "type": "string" } },
+          { "name": "reference", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Orders retrieved successfully" }
+        }
+      }
+    },
+    "/v1/orders/{reference}": {
+      "get": {
+        "description": "Retrieve a single order",
+        "parameters": [
+          { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Order retrieved successfully" }
+        }
+      }
+    },
+
+    "/v1/orders/{reference}/payments/card": {
+      "post": {
+        "description": "Pay for an order using card",
+        "parameters": [
+          { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "card_number": { "type": "string" },
+                  "card_expiry_month": { "type": "string" },
+                  "card_expiry_year": { "type": "string" },
+                  "card_cvv": { "type": "string" },
+                  "card_holder_name": { "type": "string" },
+                  "card_pin": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Payment processed" }
+        }
+      }
+    },
+
+    "/v1/orders/{reference}/payments/bank-transfer": {
+      "post": {
+        "description": "Pay for an order via bank transfer",
+        "parameters": [
+          { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Bank transfer initiated" }
+        }
+      }
+    },
+
+    "/v1/orders/{reference}/payments/{payment_reference}": {
+      "get": {
+        "description": "Get payment status for an order",
+        "parameters": [
+           { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } },
+            { "name": "payment_reference", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Payment status retrieved" }
+        }
+      }
+    },
+
+    "/payments/card": {
+      "post": {
+        "description": "Initiate direct card payment",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reference": { "type": "string" },
+                  "amount": { "type": "number" },
+                  "currency_code": { "type": "string" },
+                  "card_detail": {
+                    "type": "object",
+                    "properties": {
+                      "card_number": { "type": "string" },
+                      "card_name": { "type": "string" },
+                      "exp_month": { "type": "string" },
+                      "exp_year": { "type": "string" },
+                      "cvv": { "type": "string" }
+                    }
+                  },
+                  "billing_detail": {
+                    "type": "object",
+                    "properties": {
+                      "street": { "type": "string" },
+                      "city": { "type": "string" },
+                      "state": { "type": "string" },
+                      "country_code": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Card payment initiated" }
+        }
+      }
+    },
+
+    "/payments/bank-deposit": {
+      "post": {
+        "description": "Initiate bank deposit payment",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "reference": { "type": "string" },
+                  "amount": { "type": "number" },
+                  "currency_code": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Bank deposit initiated" }
+        }
+      }
+    },
+
+    "/payments/{reference}": {
+      "get": {
+        "description": "Get payment status",
+        "parameters": [
+           { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Payment status retrieved" }
+        }
+      }
+  
+    },
+    "/transfers": {
+      "get": {
+        "description": "Retrieve all transfers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Transfers retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "examples": [true] },
+                    "message": { "type": "string", "examples": ["Transfers retrieved successfully"] },
+                    "data": {
+                      "type": "array",
+                      "items": { "type": "object" }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": { "type": "string", "format": "date-time" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "post": {
+        "description": "Initiate a transfer",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "sourceCurrencyCode": { "type": "string", "examples": ["NGN"] },
+                  "recipientCountryCode": { "type": "string", "examples": ["NGA"] },
+                  "amount": { "type": "number", "examples": [50000] },
+                  "note": { "type": "string" },
+                  "beneficiaryDetails": {
+                    "type": "object",
+                    "properties": {
+                      "bankCode": { "type": "string" },
+                      "accountNumber": { "type": "string" },
+                      "accountName": { "type": "string" },
+                      "firstName": { "type": "string" },
+                      "lastName": { "type": "string" },
+                      "email": { "type": "string" },
+                      "secretQuestion": { "type": "string" },
+                      "secretAnswer": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transfer initiated successfully"
+          },
+          "400": {
+            "description": "Bad request (e.g. insufficient balance or unsupported currency)"
+          }
+        }
+      }
+    },
+
+    "/transfers/account-lookup": {
+      "post": {
+        "description": "Resolve bank account name",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "countryCode": { "type": "string", "examples": ["NGA"]},
+                  "bankCode": { "type": "string" },
+                  "accountNumber": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Account name resolved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "examples": [true] },
+                    "message": { "type": "string", "examples": ["Resolved bank account name"] },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accountName": { "type": "string", "examples": ["Ken Adams"] }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": { "type": "string", "format": "date-time" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transfers/channels/{countryCode}": {
+      "get": {
+        "description": "Get available transfer channels for a country",
+        "parameters": [
+          {
+            "name": "countryCode",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "examples": ["NGA"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Channels retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "accountType": { "type": "string", "examples": ["bank"] },
+                      "currencyCode": { "type": "string", "examples": ["NGN"] },
+                      "minAmount": { "type": "number", "examples": [1800] },
+                      "maxAmount": { "type": "number", "examples": [5000000] }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transfers/beneficiaries/{countryCode}": {
+      "get": {
+        "description": "Retrieve saved beneficiaries",
+        "parameters": [
+          {
+            "name": "countryCode",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "examples": ["NGA"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Beneficiaries retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "examples": [true] },
+                    "message": { "type": "string", "examples": ["Beneficiaries"] },
+                    "data": {
+                      "type": "array",
+                      "items": { "type": "object" }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": { "type": "string", "format": "date-time" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transfers/supported-countries": {
+      "get": {
+        "description": "Retrieve supported countries for transfers",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Supported countries retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean", "examples": [true] },
+                    "message": {
+                      "type": "string",
+                      "examples": ["Supported countries retrieved"]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": { "type": "string", "examples":["NGA"] },
+                          "name": { "type": "string", "examples": ["Nigeria"] },
+                          "dialCode": { "type": "string", "examples":["234"] },
+                          "flag": { "type": "string", "examples": ["assets/flags/nga.png"] },
+                          "currencyCode": { "type": "string", "examples": ["NGN" ]},
+                          "currencyName": { "type": "string", "examples": ["Nigerian naira"]},
+                          "currencyIcon": { "type": ["string", "null"] }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/transfers/banks/{countryCode}": {
+      "get": {
+        "description": "Retrieve banks for a specific country",
+        "parameters": [
+          {
+            "name": "countryCode",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "examples": ["NGA"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Banks retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "examples": ["75faa922-8a18-4c54-a357-6d6a670379a3"]
+                      },
+                      "name": {
+                        "type": "string",
+                        "examples": ["United Bank for Africa"]
+                      },
+                      "bankCode": {
+                        "type": "string"
+                      },
+                      "logo": {
+                        "type": "string"
+                      },
+                      "accountType": {
+                        "type": "string",
+                        "examples": ["bank"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
