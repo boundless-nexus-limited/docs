@@ -93,27 +93,24 @@
               {
                 "group": "Checkout",
                 "pages": [
-                  "api-reference/checkout/pay-order-with-bank-transfer",
-                  "api-reference/checkout/create-an-order",
-                  "api-reference/checkout/get-orders",
-                  "api-reference/checkout/get-an-order"
+                  "api-reference/checkout/payorderwithbanktransfer",
+                  "api-reference/checkout/createanorder",
+                  "api-reference/checkout/getorders",
+                  "api-reference/checkout/getanorder",
+                  "api-reference/checkout/getorderpaymentstatus",
+                  "api-reference/checkout/payorderwithcard"
                 ]
               },
               {
                 "group": "Receive Payment",
                 "pages": [
-                  "get-payment-status",
                   {
                     "group": "Card Collection",
-                    "pages": [
-                      "initiate-card-payment"
-                    ]
+                    "pages": []
                   },
                   {
                     "group": "Bank Deposit",
-                    "pages": [
-                      "initiate-bank-deposit-payment"
-                    ]
+                    "pages": []
                   }
                 ]
               },
@@ -123,19 +120,17 @@
                   {
                     "group": "Bank Transfers",
                     "pages": [
-                      "get-transfer",
-                      "acc",
-                      "initiate-transfer",
-                      "get-channels",
-                      "get-beneficiaries",
-                      "supported-countries",
-                      "get-banks"
+                      "api-reference/remittance/bankTransfer/getbanks",
+                      "api-reference/remittance/bankTransfer/accountnamelookup",
+                      "api-reference/remittance/bankTransfer/initiatebanktransfer",
+                      "api-reference/remittance/bankTransfer/previewbanktransfer",
+                      "api-reference/remittance/bankTransfer/getbanktransferstatus",
+                      "api-reference/remittance/bankTransfer/supportedcountries",
+                      "api-reference/remittance/bankTransfer/getdestination"
                     ]
                   },
-                  {
-                    "group": "Crypto Withdrawal",
-                    "pages": []
-                  }
+                  "api-reference/remittance/getdestinationconfiguration",
+                  "api-reference/remittance/supportedcountries"
                 ]
               },
               {
