@@ -137,7 +137,44 @@
                 "group": "Webhook",
                 "pages": []
               },
-              "api-reference/openai-json"
+              "api-reference/openai-json",
+              {
+                "group": "Subscription",
+                "pages": [
+                  {
+                    "group": "Plans",
+                    "pages": [
+                      "api-reference/subscription/plans/plans",
+                      "api-reference/subscription/plans/plan",
+                      "api-reference/subscription/plans/createplan",
+                      "api-reference/subscription/plans/updateplan",
+                      "api-reference/subscription/plans/deleteplan"
+                    ]
+                  },
+                  {
+                    "group": "Payments",
+                    "pages": [
+                      {
+                        "group": "Cards",
+                        "pages": [
+                          "api-reference/subscription/payments/cards/addcard",
+                          "api-reference/subscription/payments/cards/deletecard",
+                          "api-reference/subscription/payments/cards/setdefaultcard"
+                        ]
+                      },
+                      "api-reference/subscription/payments/listpayemnts",
+                      "api-reference/subscription/payments/getpayment",
+                      "api-reference/subscription/payments/retryfailedpayment"
+                    ]
+                  },
+                  "api-reference/subscription/subscriptions",
+                  "api-reference/subscription/subscription",
+                  "api-reference/subscription/cancelsubscription",
+                  "api-reference/subscription/pausesubscription",
+                  "api-reference/subscription/chargesubscription",
+                  "api-reference/subscription/createsubscription"
+                ]
+              }
             ]
           },
           {
