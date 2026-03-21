@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Boundlesspay API",
   "colors": {
-    "primary": "#1c15a3",
-    "light": "#1906c9",
-    "dark": "#141980"
+    "primary": "#1c4fff",
+    "light": "#1b42d4",
+    "dark": "#1b42d4"
   },
   "favicon": "/favicon.svg",
   "navigation": {
