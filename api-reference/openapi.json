@@ -433,7 +433,7 @@
         }
       }
     },
-    "/v1/orders": {
+    "/orders": {
       "post": {
         "description": "Create a new order",
         "requestBody": {
@@ -480,7 +480,7 @@
         }
       }
     },
-    "/v1/orders/{reference}": {
+    "/orders/{reference}": {
       "get": {
         "description": "Retrieve a single order",
         "parameters": [
@@ -492,7 +492,7 @@
       }
     },
 
-    "/v1/orders/{reference}/payments/card": {
+    "/orders/{reference}/payments/card": {
       "post": {
         "description": "Pay for an order using card",
         "parameters": [
@@ -522,7 +522,7 @@
       }
     },
 
-    "/v1/orders/{reference}/payments/bank-transfer": {
+    "/orders/{reference}/payments/bank-transfer": {
       "post": {
         "description": "Pay for an order via bank transfer",
         "parameters": [
@@ -534,7 +534,7 @@
       }
     },
 
-    "/v1/orders/{reference}/payments/{payment_reference}": {
+    "/orders/{reference}/payments/{payment_reference}": {
       "get": {
         "description": "Get payment status for an order",
         "parameters": [
