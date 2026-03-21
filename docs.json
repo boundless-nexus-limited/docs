@@ -137,7 +137,6 @@
                 "group": "Webhook",
                 "pages": []
               },
-              "api-reference/openai-json",
               {
                 "group": "Subscription",
                 "pages": [
