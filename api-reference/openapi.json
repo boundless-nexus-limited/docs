@@ -92,7 +92,7 @@
         }
       }
     },
-    "/v1/currencies": {
+    "/currencies": {
       "get": {
         "description": "Retrieve a list of supported fiat and crypto currencies",
         "parameters": [
@@ -128,7 +128,7 @@
         }
       }
     },
-    "/v1/currencies/conversion": {
+    "/currencies/conversion": {
       "post": {
         "summary": "Create a conversion",
         "description": "Convert one currency to another",
@@ -190,7 +190,7 @@
         }
       }
     },
-    "/v1/sub-accounts": {
+    "/sub-accounts": {
       "post": {
         "summary": "Create a Sub Account",
         "description": "Creates a new sub-account linked to the authenticated business account using the provided email.",
@@ -371,7 +371,7 @@
         }
       }
     },
-   "/v1/sub-accounts/{reference}": {
+   "/sub-accounts/{reference}": {
       "get": {
         "summary": "Get a Single Sub Account",
         "description": "Retrieve detailed information about a specific sub-account by its reference ID.",
