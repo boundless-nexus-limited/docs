@@ -2,6 +2,9 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Boundlesspay API",
+  "api": {
+    "baseUrl": "https://api.boundlesspay.com"
+  },
   "colors": {
     "primary": "#1c4fff",
     "light": "#1b42d4",
@@ -71,7 +74,7 @@
               {
                 "group": "Countries",
                 "pages": [
-                  "api-reference/countries/countries"
+                  "api-reference/countries/getCountries"
                 ]
               },
               {
