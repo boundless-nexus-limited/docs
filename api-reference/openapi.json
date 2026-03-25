@@ -1,17 +1,13 @@
-
 {
   "openapi": "3.1.0",
   "info": {
     "title": "BoundlessPay API",
     "version": "1.0.0"
   },
-
-
-   "paths": {
+  "paths": {
     "/v1/countries": {
       "get": {
-        "description": "Retrieve a list of supported countries",
-        "parameters": [],
+        "description": "Use this to retrive a list of supported countries",
         "responses": {
           "200": {
             "description": "Successful response with list of countries",
@@ -19,14 +15,15 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": ["success", "message", "data"],
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [true]
+                      "example": true
                     },
                     "message": {
                       "type": "string",
-                      "examples": ["Countries"]
+                      "example": "Operation successful"
                     },
                     "data": {
                       "type": "array",
@@ -35,39 +32,41 @@
                         "properties": {
                           "id": {
                             "type": "integer",
-                            "examples": [1]
+                            "example": 1
                           },
                           "code": {
                             "type": "string",
-                            "examples": ["NGA"]
+                            "example": "NGA"
                           },
                           "name": {
                             "type": "string",
-                            "examples": ["Nigeria"]
+                            "example": "Nigeria"
                           },
                           "currencyCode": {
                             "type": "string",
-                            "examples": ["NGN"]
+                            "example": "NGN"
                           },
                           "dialCode": {
                             "type": "string",
-                            "examples": ["234"]
+                            "example": "234"
                           },
                           "flag": {
                             "type": "string",
-                            "examples": ["assets/flags/nga.png"]
+                            "example": "assets/flags/nga.png"
                           },
                           "active": {
                             "type": "boolean",
-                            "examples": [true]
+                            "example": true
                           },
                           "createdAt": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date-time",
+                            "example": "2026-03-25T07:09:06Z"
                           },
                           "updatedAt": {
                             "type": "string",
-                            "format": "date-time"
+                            "format": "date-time",
+                            "example": "2026-03-25T07:09:06Z"
                           }
                         }
                       }
@@ -103,7 +102,10 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["crypto", "fiat"]
+              "enum": [
+                "crypto",
+                "fiat"
+              ]
             }
           },
           {
@@ -199,12 +201,16 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["email"],
+                "required": [
+                  "email"
+                ],
                 "properties": {
                   "email": {
                     "type": "string",
                     "format": "email",
-                    "examples": ["nwakasistephenifeanyi2@gmail.com"]
+                    "examples": [
+                      "nwakasistephenifeanyi2@gmail.com"
+                    ]
                   }
                 }
               }
@@ -221,27 +227,37 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [true]
+                      "examples": [
+                        true
+                      ]
                     },
                     "message": {
                       "type": "string",
-                      "examples": ["Sub-account created successfully"]
+                      "examples": [
+                        "Sub-account created successfully"
+                      ]
                     },
                     "data": {
                       "type": "object",
                       "properties": {
                         "reference": {
                           "type": "string",
-                          "examples": ["vl035tap5ocfofjb"]
+                          "examples": [
+                            "vl035tap5ocfofjb"
+                          ]
                         },
                         "email": {
                           "type": "string",
                           "format": "email",
-                          "examples": ["nwakasistephenifeanyi2@gmail.com"]
+                          "examples": [
+                            "nwakasistephenifeanyi2@gmail.com"
+                          ]
                         },
                         "status": {
                           "type": "string",
-                          "examples": ["pending"]
+                          "examples": [
+                            "pending"
+                          ]
                         },
                         "createdAt": {
                           "type": "string",
@@ -259,7 +275,11 @@
                       }
                     }
                   },
-                  "required": ["success", "message", "data"]
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ]
                 }
               }
             }
@@ -340,18 +360,28 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [true]
+                      "examples": [
+                        true
+                      ]
                     },
                     "message": {
                       "type": "string",
-                      "examples": ["Sub-accounts retrieved"]
+                      "examples": [
+                        "Sub-accounts retrieved"
+                      ]
                     },
                     "meta": {
                       "type": "object",
                       "properties": {
-                        "total": { "type": "integer" },
-                        "page": { "type": "integer" },
-                        "limit": { "type": "integer" },
+                        "total": {
+                          "type": "integer"
+                        },
+                        "page": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
                         "timestamp": {
                           "type": "string",
                           "format": "date-time"
@@ -359,7 +389,11 @@
                       }
                     }
                   },
-                  "required": ["success", "message", "data"]
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ]
                 }
               }
             }
@@ -370,7 +404,7 @@
         }
       }
     },
-   "/sub-accounts/{reference}": {
+    "/sub-accounts/{reference}": {
       "get": {
         "description": "Retrieve detailed information about a specific sub-account by its reference ID.",
         "parameters": [
@@ -381,7 +415,9 @@
             "description": "Unique reference of the sub-account",
             "schema": {
               "type": "string",
-              "examples": ["vl035tap5ocfofjb"]
+              "examples": [
+                "vl035tap5ocfofjb"
+              ]
             }
           }
         ],
@@ -395,11 +431,15 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [true]
+                      "examples": [
+                        true
+                      ]
                     },
                     "message": {
                       "type": "string",
-                      "examples": ["Sub-account found"]
+                      "examples": [
+                        "Sub-account found"
+                      ]
                     },
                     "data": {},
                     "meta": {
@@ -412,7 +452,11 @@
                       }
                     }
                   },
-                  "required": ["success", "message", "data"]
+                  "required": [
+                    "success",
+                    "message",
+                    "data"
+                  ]
                 }
               }
             }
@@ -441,40 +485,94 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "reference": { "type": "string" },
-                  "currency_code": { "type": "string", "examples": ["NGN"] },
-                  "amount": { "type": "number", "examples": [5000] },
-                  "description": { "type": "string" },
+                  "reference": {
+                    "type": "string"
+                  },
+                  "currency_code": {
+                    "type": "string",
+                    "examples": [
+                      "NGN"
+                    ]
+                  },
+                  "amount": {
+                    "type": "number",
+                    "examples": [
+                      5000
+                    ]
+                  },
+                  "description": {
+                    "type": "string"
+                  },
                   "customer": {
                     "type": "object",
                     "properties": {
-                      "first_name": { "type": "string" },
-                      "last_name": { "type": "string" },
-                      "email": { "type": "string" },
-                      "phone_number": { "type": "string" }
+                      "first_name": {
+                        "type": "string"
+                      },
+                      "last_name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "phone_number": {
+                        "type": "string"
+                      }
                     }
                   },
-                  "metadata": { "type": "object" }
+                  "metadata": {
+                    "type": "object"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Order created successfully" },
-          "401": { "description": "Unauthorized" }
+          "200": {
+            "description": "Order created successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
         }
       },
       "get": {
         "description": "Retrieve all orders",
         "parameters": [
-          { "name": "page", "in": "query", "schema": { "type": "integer" } },
-          { "name": "limit", "in": "query", "schema": { "type": "integer" } },
-          { "name": "status", "in": "query", "schema": { "type": "string" } },
-          { "name": "reference", "in": "query", "schema": { "type": "string" } }
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reference",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Orders retrieved successfully" }
+          "200": {
+            "description": "Orders retrieved successfully"
+          }
         }
       }
     },
@@ -482,19 +580,34 @@
       "get": {
         "description": "Retrieve a single order",
         "parameters": [
-          { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "reference",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Order retrieved successfully" }
+          "200": {
+            "description": "Order retrieved successfully"
+          }
         }
       }
     },
-
     "/orders/{reference}/payments/card": {
       "post": {
         "description": "Pay for an order using card",
         "parameters": [
-          { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "reference",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "requestBody": {
           "required": true,
@@ -503,48 +616,84 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "card_number": { "type": "string" },
-                  "card_expiry_month": { "type": "string" },
-                  "card_expiry_year": { "type": "string" },
-                  "card_cvv": { "type": "string" },
-                  "card_holder_name": { "type": "string" },
-                  "card_pin": { "type": "string" }
+                  "card_number": {
+                    "type": "string"
+                  },
+                  "card_expiry_month": {
+                    "type": "string"
+                  },
+                  "card_expiry_year": {
+                    "type": "string"
+                  },
+                  "card_cvv": {
+                    "type": "string"
+                  },
+                  "card_holder_name": {
+                    "type": "string"
+                  },
+                  "card_pin": {
+                    "type": "string"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Payment processed" }
+          "200": {
+            "description": "Payment processed"
+          }
         }
       }
     },
-
     "/orders/{reference}/payments/bank-transfer": {
       "post": {
         "description": "Pay for an order via bank transfer",
         "parameters": [
-          { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "reference",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Bank transfer initiated" }
+          "200": {
+            "description": "Bank transfer initiated"
+          }
         }
       }
     },
-
     "/orders/{reference}/payments/{payment_reference}": {
       "get": {
         "description": "Get payment status for an order",
         "parameters": [
-           { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } },
-            { "name": "payment_reference", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "reference",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "payment_reference",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Payment status retrieved" }
+          "200": {
+            "description": "Payment status retrieved"
+          }
         }
       }
     },
-
     "/payments/card": {
       "post": {
         "description": "Initiate direct card payment",
@@ -555,26 +704,50 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "reference": { "type": "string" },
-                  "amount": { "type": "number" },
-                  "currency_code": { "type": "string" },
+                  "reference": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "currency_code": {
+                    "type": "string"
+                  },
                   "card_detail": {
                     "type": "object",
                     "properties": {
-                      "card_number": { "type": "string" },
-                      "card_name": { "type": "string" },
-                      "exp_month": { "type": "string" },
-                      "exp_year": { "type": "string" },
-                      "cvv": { "type": "string" }
+                      "card_number": {
+                        "type": "string"
+                      },
+                      "card_name": {
+                        "type": "string"
+                      },
+                      "exp_month": {
+                        "type": "string"
+                      },
+                      "exp_year": {
+                        "type": "string"
+                      },
+                      "cvv": {
+                        "type": "string"
+                      }
                     }
                   },
                   "billing_detail": {
                     "type": "object",
                     "properties": {
-                      "street": { "type": "string" },
-                      "city": { "type": "string" },
-                      "state": { "type": "string" },
-                      "country_code": { "type": "string" }
+                      "street": {
+                        "type": "string"
+                      },
+                      "city": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
+                      },
+                      "country_code": {
+                        "type": "string"
+                      }
                     }
                   }
                 }
@@ -583,11 +756,12 @@
           }
         },
         "responses": {
-          "200": { "description": "Card payment initiated" }
+          "200": {
+            "description": "Card payment initiated"
+          }
         }
       }
     },
-
     "/payments/bank-deposit": {
       "post": {
         "description": "Initiate bank deposit payment",
@@ -598,33 +772,48 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "reference": { "type": "string" },
-                  "amount": { "type": "number" },
-                  "currency_code": { "type": "string" }
+                  "reference": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number"
+                  },
+                  "currency_code": {
+                    "type": "string"
+                  }
                 }
               }
             }
           }
         },
         "responses": {
-          "200": { "description": "Bank deposit initiated" }
+          "200": {
+            "description": "Bank deposit initiated"
+          }
         }
       }
     },
-
     "/payments/{reference}": {
       "get": {
         "description": "Get payment status",
         "parameters": [
-           { "name": "reference", "in": "path", "required": true, "schema": { "type": "string" } }
+          {
+            "name": "reference",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
-          "200": { "description": "Payment status retrieved" }
+          "200": {
+            "description": "Payment status retrieved"
+          }
         }
       }
-  
     },
-     "/transfers/banks/{countryCode}": {
+    "/transfers/banks/{countryCode}": {
       "get": {
         "description": "Get Banks",
         "parameters": [
@@ -634,7 +823,9 @@
             "required": true,
             "schema": {
               "type": "string",
-              "examples": ["NGA"]
+              "examples": [
+                "NGA"
+              ]
             }
           }
         ],
@@ -646,15 +837,23 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": { "type": "boolean" },
-                    "message": { "type": "string" },
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "name": { "type": "string" },
-                          "code": { "type": "string" }
+                          "name": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          }
                         }
                       }
                     }
@@ -675,19 +874,29 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["country_code", "bank_code", "account_number"],
+                "required": [
+                  "country_code",
+                  "bank_code",
+                  "account_number"
+                ],
                 "properties": {
                   "country_code": {
                     "type": "string",
-                    "examples": ["NGA"]
+                    "examples": [
+                      "NGA"
+                    ]
                   },
                   "bank_code": {
                     "type": "string",
-                    "examples": ["090483"]
+                    "examples": [
+                      "090483"
+                    ]
                   },
                   "account_number": {
                     "type": "string",
-                    "examples": ["2120894439"]
+                    "examples": [
+                      "2120894439"
+                    ]
                   }
                 }
               }
@@ -702,8 +911,12 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": { "type": "boolean" },
-                    "message": { "type": "string" },
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
                     "data": {
                       "type": "object",
                       "properties": {
@@ -739,29 +952,49 @@
                 "properties": {
                   "sourceCurrencyCode": {
                     "type": "string",
-                    "examples": ["NGN"]
+                    "examples": [
+                      "NGN"
+                    ]
                   },
                   "recipientCountryCode": {
                     "type": "string",
-                    "examples": ["NGA"]
+                    "examples": [
+                      "NGA"
+                    ]
                   },
                   "amount": {
                     "type": "number",
-                    "examples": [50000]
+                    "examples": [
+                      50000
+                    ]
                   },
                   "note": {
                     "type": "string",
-                    "examples": ["Test send"]
+                    "examples": [
+                      "Test send"
+                    ]
                   },
                   "beneficiaryDetails": {
                     "type": "object",
                     "properties": {
-                      "bankCode": { "type": "string" },
-                      "accountNumber": { "type": "string" },
-                      "accountName": { "type": "string" },
-                      "firstName": { "type": "string" },
-                      "lastName": { "type": "string" },
-                      "email": { "type": "string" }
+                      "bankCode": {
+                        "type": "string"
+                      },
+                      "accountNumber": {
+                        "type": "string"
+                      },
+                      "accountName": {
+                        "type": "string"
+                      },
+                      "firstName": {
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      }
                     }
                   }
                 }
@@ -777,16 +1010,30 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": { "type": "boolean" },
-                    "message": { "type": "string" },
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
                     "data": {
                       "type": "object",
                       "properties": {
-                        "merchant_reference": { "type": "string" },
-                        "reference": { "type": "string" },
-                        "status": { "type": "string" },
-                        "currency_code": { "type": "string" },
-                        "amount": { "type": "number" }
+                        "merchant_reference": {
+                          "type": "string"
+                        },
+                        "reference": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "string"
+                        },
+                        "currency_code": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "number"
+                        }
                       }
                     }
                   }
@@ -806,15 +1053,22 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["recipient_country_code", "amount"],
+                "required": [
+                  "recipient_country_code",
+                  "amount"
+                ],
                 "properties": {
                   "recipient_country_code": {
                     "type": "string",
-                    "examples": ["NGA"]
+                    "examples": [
+                      "NGA"
+                    ]
                   },
                   "amount": {
                     "type": "number",
-                    "examples":[ 3000]
+                    "examples": [
+                      3000
+                    ]
                   }
                 }
               }
@@ -829,19 +1083,35 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "success": { "type": "boolean" },
-                    "message": { "type": "string" },
+                    "success": {
+                      "type": "boolean"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
                     "data": {
                       "type": "object",
                       "properties": {
-                        "recipient_name": { "type": "string" },
-                        "reference": { "type": "string" },
-                        "amount": { "type": "number" },
-                        "currency_code": { "type": "string" },
-                        "url": { "type": "string" },
+                        "recipient_name": {
+                          "type": "string"
+                        },
+                        "reference": {
+                          "type": "string"
+                        },
+                        "amount": {
+                          "type": "number"
+                        },
+                        "currency_code": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
                         "channels": {
                           "type": "array",
-                          "items": { "type": "string" }
+                          "items": {
+                            "type": "string"
+                          }
                         }
                       }
                     }
@@ -863,7 +1133,9 @@
             "required": true,
             "schema": {
               "type": "string",
-              "examples": ["TX-1773947599640-1453"]
+              "examples": [
+                "TX-1773947599640-1453"
+              ]
             }
           }
         ],
@@ -895,7 +1167,6 @@
         }
       }
     },
-
     "/transfers/supported-countries": {
       "get": {
         "description": "Fetch all supported countries for remittance transfers",
@@ -912,19 +1183,25 @@
                       "name": "Nigeria",
                       "code": "NGA",
                       "currency_code": "NGN",
-                      "channels": ["bank"]
+                      "channels": [
+                        "bank"
+                      ]
                     },
                     {
                       "name": "United Kingdom",
                       "code": "GBR",
                       "currency_code": "GBP",
-                      "channels": ["bank"]
+                      "channels": [
+                        "bank"
+                      ]
                     },
                     {
                       "name": "United States",
                       "code": "USA",
                       "currency_code": "USD",
-                      "channels": ["bank"]
+                      "channels": [
+                        "bank"
+                      ]
                     }
                   ],
                   "meta": {
@@ -937,7 +1214,6 @@
         }
       }
     },
-
     "/transfers/{country_code}/configuration-options": {
       "get": {
         "description": "Retrieve configuration requirements for a destination country",
@@ -948,7 +1224,9 @@
             "required": true,
             "schema": {
               "type": "string",
-              "examples": ["NGA"]
+              "examples": [
+                "NGA"
+              ]
             }
           }
         ],
@@ -999,13 +1277,23 @@
             "name": "page",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "examples":[ 1] }
+            "schema": {
+              "type": "integer",
+              "examples": [
+                1
+              ]
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "examples": [100 ]}
+            "schema": {
+              "type": "integer",
+              "examples": [
+                100
+              ]
+            }
           }
         ],
         "responses": {
@@ -1048,7 +1336,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1064,7 +1354,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -1097,7 +1389,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1127,7 +1421,11 @@
             }
           }
         },
-        "responses": {"200": { "description": "Card created successfully" }}
+        "responses": {
+          "200": {
+            "description": "Card created successfully"
+          }
+        }
       }
     },
     "/gateway/subscription-payments/cards/{id}": {
@@ -1138,10 +1436,16 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "responses": {"200": { "description": "Card deleted successfully" }}
+        "responses": {
+          "200": {
+            "description": "Card deleted successfully"
+          }
+        }
       }
     },
     "/gateway/subscription-payments/cards/default": {
@@ -1158,13 +1462,21 @@
             }
           }
         },
-        "responses": {"200": { "description": "Card set successfully" }}
+        "responses": {
+          "200": {
+            "description": "Card set successfully"
+          }
+        }
       }
     },
     "/gateway/subscription-payments": {
       "get": {
         "description": "Retrieve a list of subscription payments.",
-        "responses": {"200": { "description": "successfully" }}
+        "responses": {
+          "200": {
+            "description": "successfully"
+          }
+        }
       }
     },
     "/gateway/subscription-payments/{id}": {
@@ -1175,10 +1487,16 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "responses": {"200": { "description": "successfully" }}
+        "responses": {
+          "200": {
+            "description": "successfully"
+          }
+        }
       }
     },
     "/gateway/subscription-payments/{id}/retry": {
@@ -1189,10 +1507,16 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
-        "responses": {"200": { "description": "successfully" }}
+        "responses": {
+          "200": {
+            "description": "successfully"
+          }
+        }
       }
     },
     "/subscriptions": {
@@ -1203,25 +1527,35 @@
             "name": "customerReference",
             "in": "query",
             "required": false,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "subscriptionPlanId",
             "in": "query",
             "required": false,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "page",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "default": 1 }
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
           },
           {
             "name": "limit",
             "in": "query",
             "required": false,
-            "schema": { "type": "integer", "default": 100 }
+            "schema": {
+              "type": "integer",
+              "default": 100
+            }
           }
         ],
         "responses": {
@@ -1239,10 +1573,18 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "subscriptionPlanId": { "type": "string" },
-                  "customerReference": { "type": "string" },
-                  "cardId": { "type": "string" },
-                  "autocharge": { "type": "boolean" }
+                  "subscriptionPlanId": {
+                    "type": "string"
+                  },
+                  "customerReference": {
+                    "type": "string"
+                  },
+                  "cardId": {
+                    "type": "string"
+                  },
+                  "autocharge": {
+                    "type": "boolean"
+                  }
                 }
               }
             }
@@ -1255,7 +1597,6 @@
         }
       }
     },
-
     "/subscriptions/{id}": {
       "get": {
         "description": "Retrieve details of a specific subscription by ID.",
@@ -1264,7 +1605,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1277,7 +1620,6 @@
         }
       }
     },
-
     "/subscriptions/{id}/cancel": {
       "post": {
         "description": "Cancel an active subscription.",
@@ -1286,7 +1628,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1296,7 +1640,6 @@
         }
       }
     },
-
     "/subscriptions/{id}/pause": {
       "post": {
         "description": "Pause an active subscription temporarily.",
@@ -1305,7 +1648,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1315,7 +1660,6 @@
         }
       }
     },
-
     "/subscriptions/{id}/charge": {
       "post": {
         "description": "Manually trigger a charge for a subscription.",
@@ -1324,7 +1668,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
