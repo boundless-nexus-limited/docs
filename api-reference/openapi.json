@@ -181,7 +181,31 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {}
+              "schema": {
+                "type": "object",
+                "required": [
+                  "from",
+                  "to",
+                  "amount"
+                ],
+                "properties": {
+                  "from": {
+                    "type": "string",
+                    "description": "Source currency code",
+                    "example": "XRP"
+                  },
+                  "to":{
+                    "typer": "string",
+                    "description":"Target currency code",
+                    "example": "NGN"
+                  },
+                  "amount":{
+                    "type":"integer",
+                    "description": "Amount to convert",
+                    "example": 1
+                  }
+                }
+              }
             }
           }
         },
@@ -275,7 +299,27 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {}
+              "schema": {
+                "type": "object",
+                "required": ["from", "to", "amount"],
+                "properties":{
+                  "to":{
+                    "type":"string",
+                    "description": "Target currency code",
+                    "example": "NGN"
+                  },
+                  "from":{
+                    "type": "string",
+                    "description": "Source currency code",
+                    "example": "BTC"
+                  },
+                  "amount":{
+                    "type": "integer",
+                    "description": "Amount qouted",
+                    "example": 1
+                  }
+                }
+              }
             }
           }
         },
@@ -374,9 +418,7 @@
                   "email": {
                     "type": "string",
                     "format": "email",
-                    "examples": [
-                      "nwakasistephenifeanyi2@gmail.com"
-                    ]
+                    "example": "example@gmail.com"
                   }
                 }
               }
@@ -393,24 +435,18 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [
-                        true
-                      ]
+                      "example": true
                     },
                     "message": {
                       "type": "string",
-                      "examples": [
-                        "Sub-account created successfully"
-                      ]
+                      "example": "Sub-account created successfully"
                     },
                     "data": {
                       "type": "object",
                       "properties": {
                         "reference": {
                           "type": "string",
-                          "examples": [
-                            "vl035tap5ocfofjb"
-                          ]
+                          "example": "vl035tap5ocfofjb"
                         },
                         "email": {
                           "type": "string",
