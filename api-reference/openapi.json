@@ -15,7 +15,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["success", "message", "data"],
                   "properties": {
                     "success": {
                       "type": "boolean",
@@ -93,13 +92,13 @@
     },
     "/currencies": {
       "get": {
-        "description": "Retrieve a list of supported fiat and crypto currencies",
+        "description": "Use this to retrieve a list of supported fiat and crypto currencies",
         "parameters": [
           {
             "name": "type",
             "in": "query",
             "description": "Filter by currency type (crypto or fiat)",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string",
               "enum": [
@@ -123,7 +122,47 @@
             "description": "Currencies retrieved successfully",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation successful"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Nigerian naira"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "symbol": {
+                            "type": "string",
+                            "example": "₦"
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "fiat"
+                          },
+                          "network": {
+                            "type": "array",
+                            "example": []
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -132,8 +171,7 @@
     },
     "/currencies/conversion": {
       "post": {
-        "summary": "Create a conversion",
-        "description": "Convert one currency to another",
+        "description": "Use this to convert one currency to another",
         "security": [
           {
             "ApiKeyAuth": []
@@ -153,964 +191,770 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/currencies/quotation": {
-      "post": {
-        "summary": "Create a quote",
-        "description": "Generate a currency conversion quote",
-        "security": [
-          {
-            "ApiKeyAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {}
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Quote created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/sub-accounts": {
-      "post": {
-        "description": "Creates a new sub-account linked to the authenticated business account using the provided email.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "email"
-                ],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email",
-                    "examples": [
-                      "nwakasistephenifeanyi2@gmail.com"
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Sub-account created successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [
-                        true
-                      ]
+                      "example": true
                     },
                     "message": {
                       "type": "string",
-                      "examples": [
-                        "Sub-account created successfully"
-                      ]
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "reference": {
-                          "type": "string",
-                          "examples": [
-                            "vl035tap5ocfofjb"
-                          ]
-                        },
-                        "email": {
-                          "type": "string",
-                          "format": "email",
-                          "examples": [
-                            "nwakasistephenifeanyi2@gmail.com"
-                          ]
-                        },
-                        "status": {
-                          "type": "string",
-                          "examples": [
-                            "pending"
-                          ]
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      }
-                    },
-                    "meta": {
-                      "type": "object",
-                      "properties": {
-                        "timestamp": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      }
-                    }
-                  },
-                  "required": [
-                    "success",
-                    "message",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request (email already exists, invalid format, etc.)",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized - missing or invalid credentials"
-          },
-          "403": {
-            "description": "Forbidden - account type not allowed to create sub-accounts"
-          },
-          "409": {
-            "description": "Conflict - email already in use"
-          }
-        }
-      },
-      "get": {
-        "summary": "List Sub Accounts",
-        "description": "Retrieve a paginated list of sub-accounts belonging to the authenticated business. Optional filters supported.",
-        "parameters": [
-          {
-            "name": "email",
-            "in": "query",
-            "description": "Filter by sub-account email (exact match)",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "email"
-            }
-          },
-          {
-            "name": "reference",
-            "in": "query",
-            "description": "Filter by sub-account reference",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "Page number (starts from 1)",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Number of items per page",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 100,
-              "default": 20
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Sub-accounts retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "examples": [
-                        true
-                      ]
-                    },
-                    "message": {
-                      "type": "string",
-                      "examples": [
-                        "Sub-accounts retrieved"
-                      ]
-                    },
-                    "meta": {
-                      "type": "object",
-                      "properties": {
-                        "total": {
-                          "type": "integer"
-                        },
-                        "page": {
-                          "type": "integer"
-                        },
-                        "limit": {
-                          "type": "integer"
-                        },
-                        "timestamp": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      }
-                    }
-                  },
-                  "required": [
-                    "success",
-                    "message",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/sub-accounts/{reference}": {
-      "get": {
-        "description": "Retrieve detailed information about a specific sub-account by its reference ID.",
-        "parameters": [
-          {
-            "name": "reference",
-            "in": "path",
-            "required": true,
-            "description": "Unique reference of the sub-account",
-            "schema": {
-              "type": "string",
-              "examples": [
-                "vl035tap5ocfofjb"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Sub-account details retrieved successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean",
-                      "examples": [
-                        true
-                      ]
-                    },
-                    "message": {
-                      "type": "string",
-                      "examples": [
-                        "Sub-account found"
-                      ]
-                    },
-                    "data": {},
-                    "meta": {
-                      "type": "object",
-                      "properties": {
-                        "timestamp": {
-                          "type": "string",
-                          "format": "date-time"
-                        }
-                      }
-                    }
-                  },
-                  "required": [
-                    "success",
-                    "message",
-                    "data"
-                  ]
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Sub-account not found or not accessible",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          }
-        }
-      }
-    },
-    "/orders": {
-      "post": {
-        "description": "Create a new order",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "reference": {
-                    "type": "string"
-                  },
-                  "currency_code": {
-                    "type": "string",
-                    "examples": [
-                      "NGN"
-                    ]
-                  },
-                  "amount": {
-                    "type": "number",
-                    "examples": [
-                      5000
-                    ]
-                  },
-                  "description": {
-                    "type": "string"
-                  },
-                  "customer": {
-                    "type": "object",
-                    "properties": {
-                      "first_name": {
-                        "type": "string"
-                      },
-                      "last_name": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string"
-                      },
-                      "phone_number": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "metadata": {
-                    "type": "object"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Order created successfully"
-          },
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
-      "get": {
-        "description": "Retrieve all orders",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "reference",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Orders retrieved successfully"
-          }
-        }
-      }
-    },
-    "/orders/{reference}": {
-      "get": {
-        "description": "Retrieve a single order",
-        "parameters": [
-          {
-            "name": "reference",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Order retrieved successfully"
-          }
-        }
-      }
-    },
-    "/orders/{reference}/payments/card": {
-      "post": {
-        "description": "Pay for an order using card",
-        "parameters": [
-          {
-            "name": "reference",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "card_number": {
-                    "type": "string"
-                  },
-                  "card_expiry_month": {
-                    "type": "string"
-                  },
-                  "card_expiry_year": {
-                    "type": "string"
-                  },
-                  "card_cvv": {
-                    "type": "string"
-                  },
-                  "card_holder_name": {
-                    "type": "string"
-                  },
-                  "card_pin": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Payment processed"
-          }
-        }
-      }
-    },
-    "/orders/{reference}/payments/bank-transfer": {
-      "post": {
-        "description": "Pay for an order via bank transfer",
-        "parameters": [
-          {
-            "name": "reference",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Bank transfer initiated"
-          }
-        }
-      }
-    },
-    "/orders/{reference}/payments/{payment_reference}": {
-      "get": {
-        "description": "Get payment status for an order",
-        "parameters": [
-          {
-            "name": "reference",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "payment_reference",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payment status retrieved"
-          }
-        }
-      }
-    },
-    "/payments/card": {
-      "post": {
-        "description": "Initiate direct card payment",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "reference": {
-                    "type": "string"
-                  },
-                  "amount": {
-                    "type": "number"
-                  },
-                  "currency_code": {
-                    "type": "string"
-                  },
-                  "card_detail": {
-                    "type": "object",
-                    "properties": {
-                      "card_number": {
-                        "type": "string"
-                      },
-                      "card_name": {
-                        "type": "string"
-                      },
-                      "exp_month": {
-                        "type": "string"
-                      },
-                      "exp_year": {
-                        "type": "string"
-                      },
-                      "cvv": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "billing_detail": {
-                    "type": "object",
-                    "properties": {
-                      "street": {
-                        "type": "string"
-                      },
-                      "city": {
-                        "type": "string"
-                      },
-                      "state": {
-                        "type": "string"
-                      },
-                      "country_code": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Card payment initiated"
-          }
-        }
-      }
-    },
-    "/payments/bank-deposit": {
-      "post": {
-        "description": "Initiate bank deposit payment",
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "reference": {
-                    "type": "string"
-                  },
-                  "amount": {
-                    "type": "number"
-                  },
-                  "currency_code": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Bank deposit initiated"
-          }
-        }
-      }
-    },
-    "/payments/{reference}": {
-      "get": {
-        "description": "Get payment status",
-        "parameters": [
-          {
-            "name": "reference",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Payment status retrieved"
-          }
-        }
-      }
-    },
-    "/transfers/banks/{countryCode}": {
-      "get": {
-        "description": "Get Banks",
-        "parameters": [
-          {
-            "name": "countryCode",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "examples": [
-                "NGA"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of banks",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
+                      "example": "Operation successful"
                     },
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "name": {
-                            "type": "string"
+                          "from": {
+                            "type": "string",
+                            "example": "XRP"
                           },
-                          "code": {
-                            "type": "string"
+                          "to": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "fromAmount": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "toAmount": {
+                            "type": "integer",
+                            "example": 0.85
+                          },
+                          "rate": {
+                            "type": "integer",
+                            "example": 0.85
+                          },
+                          "value": {
+                            "type": "integer",
+                            "example": 0.85
+                          },
+                          "fromAmountInUSD": {
+                            "type": "integer",
+                            "example": 1.1764705882352942
+                          },
+                          "fromAmountInUSDRate": {
+                            "type": "integer",
+                            "example": 1.1764705882352942
+                          },
+                          "id": {
+                            "type": "string",
+                            "example": "j8bq9pw3ir"
+                          },
+                          "expiration": {
+                            "type": "integer",
+                            "example": 60
                           }
                         }
                       }
+                    },
+                    "meta": {
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026"
+                      }
                     }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/transfers/account-lookup": {
-      "post": {
-        "description": "Account Name Lookup",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "country_code",
-                  "bank_code",
-                  "account_number"
-                ],
-                "properties": {
-                  "country_code": {
-                    "type": "string",
-                    "examples": [
-                      "NGA"
-                    ]
-                  },
-                  "bank_code": {
-                    "type": "string",
-                    "examples": [
-                      "090483"
-                    ]
-                  },
-                  "account_number": {
-                    "type": "string",
-                    "examples": [
-                      "2120894439"
-                    ]
                   }
                 }
               }
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": "Account lookup successful",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "result": {
-                          "type": "string",
-                          "example": "John Doe"
-                        }
-                      }
+        "/currencies/quotation": {
+          "post": {
+            "summary": "Create a quote",
+            "description": "Generate a currency conversion quote",
+            "security": [
+              {
+                "ApiKeyAuth": []
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {}
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Quote created successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object"
                     }
                   }
                 }
               }
             }
           }
-        }
-      }
-    },
-    "/transfers/bank": {
-      "post": {
-        "description": "Initiate Bank Transfer",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "sourceCurrencyCode",
-                  "recipientCountryCode",
-                  "amount",
-                  "beneficiaryDetails"
-                ],
-                "properties": {
-                  "sourceCurrencyCode": {
-                    "type": "string",
-                    "examples": [
-                      "NGN"
-                    ]
-                  },
-                  "recipientCountryCode": {
-                    "type": "string",
-                    "examples": [
-                      "NGA"
-                    ]
-                  },
-                  "amount": {
-                    "type": "number",
-                    "examples": [
-                      50000
-                    ]
-                  },
-                  "note": {
-                    "type": "string",
-                    "examples": [
-                      "Test send"
-                    ]
-                  },
-                  "beneficiaryDetails": {
+        },
+        "/sub-accounts": {
+          "post": {
+            "description": "Creates a new sub-account linked to the authenticated business account using the provided email.",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "email"
+                    ],
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "examples": [
+                          "nwakasistephenifeanyi2@gmail.com"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Sub-account created successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "examples": [
+                            true
+                          ]
+                        },
+                        "message": {
+                          "type": "string",
+                          "examples": [
+                            "Sub-account created successfully"
+                          ]
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "reference": {
+                              "type": "string",
+                              "examples": [
+                                "vl035tap5ocfofjb"
+                              ]
+                            },
+                            "email": {
+                              "type": "string",
+                              "format": "email",
+                              "examples": [
+                                "nwakasistephenifeanyi2@gmail.com"
+                              ]
+                            },
+                            "status": {
+                              "type": "string",
+                              "examples": [
+                                "pending"
+                              ]
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        },
+                        "meta": {
+                          "type": "object",
+                          "properties": {
+                            "timestamp": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "success",
+                        "message",
+                        "data"
+                      ]
+                    }
+                  }
+                }
+              },
+              "400": {
+                "description": "Invalid request (email already exists, invalid format, etc.)",
+                "content": {
+                  "application/json": {
+                    "schema": {}
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized - missing or invalid credentials"
+              },
+              "403": {
+                "description": "Forbidden - account type not allowed to create sub-accounts"
+              },
+              "409": {
+                "description": "Conflict - email already in use"
+              }
+            }
+          },
+          "get": {
+            "summary": "List Sub Accounts",
+            "description": "Retrieve a paginated list of sub-accounts belonging to the authenticated business. Optional filters supported.",
+            "parameters": [
+              {
+                "name": "email",
+                "in": "query",
+                "description": "Filter by sub-account email (exact match)",
+                "required": false,
+                "schema": {
+                  "type": "string",
+                  "format": "email"
+                }
+              },
+              {
+                "name": "reference",
+                "in": "query",
+                "description": "Filter by sub-account reference",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "page",
+                "in": "query",
+                "description": "Page number (starts from 1)",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 1
+                }
+              },
+              {
+                "name": "limit",
+                "in": "query",
+                "description": "Number of items per page",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100,
+                  "default": 20
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Sub-accounts retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "examples": [
+                            true
+                          ]
+                        },
+                        "message": {
+                          "type": "string",
+                          "examples": [
+                            "Sub-accounts retrieved"
+                          ]
+                        },
+                        "meta": {
+                          "type": "object",
+                          "properties": {
+                            "total": {
+                              "type": "integer"
+                            },
+                            "page": {
+                              "type": "integer"
+                            },
+                            "limit": {
+                              "type": "integer"
+                            },
+                            "timestamp": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "success",
+                        "message",
+                        "data"
+                      ]
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized"
+              }
+            }
+          }
+        },
+        "/sub-accounts/{reference}": {
+          "get": {
+            "description": "Retrieve detailed information about a specific sub-account by its reference ID.",
+            "parameters": [
+              {
+                "name": "reference",
+                "in": "path",
+                "required": true,
+                "description": "Unique reference of the sub-account",
+                "schema": {
+                  "type": "string",
+                  "examples": [
+                    "vl035tap5ocfofjb"
+                  ]
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Sub-account details retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "examples": [
+                            true
+                          ]
+                        },
+                        "message": {
+                          "type": "string",
+                          "examples": [
+                            "Sub-account found"
+                          ]
+                        },
+                        "data": {},
+                        "meta": {
+                          "type": "object",
+                          "properties": {
+                            "timestamp": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "success",
+                        "message",
+                        "data"
+                      ]
+                    }
+                  }
+                }
+              },
+              "401": {
+                "description": "Unauthorized"
+              },
+              "404": {
+                "description": "Sub-account not found or not accessible",
+                "content": {
+                  "application/json": {
+                    "schema": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/orders": {
+          "post": {
+            "description": "Create a new order",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
                     "type": "object",
                     "properties": {
-                      "bankCode": {
+                      "reference": {
                         "type": "string"
                       },
-                      "accountNumber": {
+                      "currency_code": {
+                        "type": "string",
+                        "examples": [
+                          "NGN"
+                        ]
+                      },
+                      "amount": {
+                        "type": "number",
+                        "examples": [
+                          5000
+                        ]
+                      },
+                      "description": {
                         "type": "string"
                       },
-                      "accountName": {
+                      "customer": {
+                        "type": "object",
+                        "properties": {
+                          "first_name": {
+                            "type": "string"
+                          },
+                          "last_name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "phone_number": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "metadata": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Order created successfully"
+              },
+              "401": {
+                "description": "Unauthorized"
+              }
+            }
+          },
+          "get": {
+            "description": "Retrieve all orders",
+            "parameters": [
+              {
+                "name": "page",
+                "in": "query",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "limit",
+                "in": "query",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              {
+                "name": "status",
+                "in": "query",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "reference",
+                "in": "query",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Orders retrieved successfully"
+              }
+            }
+          }
+        },
+        "/orders/{reference}": {
+          "get": {
+            "description": "Retrieve a single order",
+            "parameters": [
+              {
+                "name": "reference",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Order retrieved successfully"
+              }
+            }
+          }
+        },
+        "/orders/{reference}/payments/card": {
+          "post": {
+            "description": "Pay for an order using card",
+            "parameters": [
+              {
+                "name": "reference",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "card_number": {
                         "type": "string"
                       },
-                      "firstName": {
+                      "card_expiry_month": {
                         "type": "string"
                       },
-                      "lastName": {
+                      "card_expiry_year": {
                         "type": "string"
                       },
-                      "email": {
+                      "card_cvv": {
+                        "type": "string"
+                      },
+                      "card_holder_name": {
+                        "type": "string"
+                      },
+                      "card_pin": {
                         "type": "string"
                       }
                     }
                   }
                 }
               }
+            },
+            "responses": {
+              "200": {
+                "description": "Payment processed"
+              }
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": "Transfer initiated",
-            "content": {
-              "application/json": {
+        "/orders/{reference}/payments/bank-transfer": {
+          "post": {
+            "description": "Pay for an order via bank transfer",
+            "parameters": [
+              {
+                "name": "reference",
+                "in": "path",
+                "required": true,
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "merchant_reference": {
-                          "type": "string"
-                        },
-                        "reference": {
-                          "type": "string"
-                        },
-                        "status": {
-                          "type": "string"
-                        },
-                        "currency_code": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "number"
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Bank transfer initiated"
+              }
+            }
+          }
+        },
+        "/orders/{reference}/payments/{payment_reference}": {
+          "get": {
+            "description": "Get payment status for an order",
+            "parameters": [
+              {
+                "name": "reference",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "payment_reference",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Payment status retrieved"
+              }
+            }
+          }
+        },
+        "/payments/card": {
+          "post": {
+            "description": "Initiate direct card payment",
+            "parameters": [],
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "reference": {
+                        "type": "string"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "currency_code": {
+                        "type": "string"
+                      },
+                      "card_detail": {
+                        "type": "object",
+                        "properties": {
+                          "card_number": {
+                            "type": "string"
+                          },
+                          "card_name": {
+                            "type": "string"
+                          },
+                          "exp_month": {
+                            "type": "string"
+                          },
+                          "exp_year": {
+                            "type": "string"
+                          },
+                          "cvv": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "billing_detail": {
+                        "type": "object",
+                        "properties": {
+                          "street": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "country_code": {
+                            "type": "string"
+                          }
                         }
                       }
                     }
                   }
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    "/transfers/preview": {
-      "post": {
-        "description": "Preview Bank Transfer",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "recipient_country_code",
-                  "amount"
-                ],
-                "properties": {
-                  "recipient_country_code": {
-                    "type": "string",
-                    "examples": [
-                      "NGA"
-                    ]
-                  },
-                  "amount": {
-                    "type": "number",
-                    "examples": [
-                      3000
-                    ]
-                  }
-                }
+            },
+            "responses": {
+              "200": {
+                "description": "Card payment initiated"
               }
             }
           }
         },
-        "responses": {
-          "201": {
-            "description": "Preview created",
-            "content": {
-              "application/json": {
+        "/payments/bank-deposit": {
+          "post": {
+            "description": "Initiate bank deposit payment",
+            "parameters": [],
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "reference": {
+                        "type": "string"
+                      },
+                      "amount": {
+                        "type": "number"
+                      },
+                      "currency_code": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Bank deposit initiated"
+              }
+            }
+          }
+        },
+        "/payments/{reference}": {
+          "get": {
+            "description": "Get payment status",
+            "parameters": [
+              {
+                "name": "reference",
+                "in": "path",
+                "required": true,
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "success": {
-                      "type": "boolean"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Payment status retrieved"
+              }
+            }
+          }
+        },
+        "/transfers/banks/{countryCode}": {
+          "get": {
+            "description": "Get Banks",
+            "parameters": [
+              {
+                "name": "countryCode",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "examples": [
+                    "NGA"
+                  ]
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "List of banks",
+                "content": {
+                  "application/json": {
+                    "schema": {
                       "type": "object",
                       "properties": {
-                        "recipient_name": {
+                        "success": {
+                          "type": "boolean"
+                        },
+                        "message": {
                           "type": "string"
                         },
-                        "reference": {
-                          "type": "string"
-                        },
-                        "amount": {
-                          "type": "number"
-                        },
-                        "currency_code": {
-                          "type": "string"
-                        },
-                        "url": {
-                          "type": "string"
-                        },
-                        "channels": {
+                        "data": {
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "code": {
+                                "type": "string"
+                              }
+                            }
                           }
                         }
                       }
@@ -1120,562 +964,820 @@
               }
             }
           }
-        }
-      }
-    },
-    "/transfers/{reference}/status": {
-      "get": {
-        "description": "Retrieve the status of a bank transfer using its reference",
-        "parameters": [
-          {
-            "name": "reference",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "examples": [
-                "TX-1773947599640-1453"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Transfer status retrieved successfully",
-            "content": {
-              "application/json": {
-                "example": {
-                  "success": true,
-                  "message": "Operation successful",
-                  "data": {
-                    "success": true,
-                    "message": "Query successful",
-                    "data": {
-                      "reference": "TX-1773947599640-1453",
-                      "status": "successful",
-                      "currency_code": "NGN",
-                      "amount": "500.00000000"
-                    }
-                  },
-                  "meta": {
-                    "timestamp": "2026-03-19T19:50:10.817Z"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/transfers/supported-countries": {
-      "get": {
-        "description": "Fetch all supported countries for remittance transfers",
-        "responses": {
-          "200": {
-            "description": "Supported countries retrieved successfully",
-            "content": {
-              "application/json": {
-                "example": {
-                  "success": true,
-                  "message": "Operation successful",
-                  "data": [
-                    {
-                      "name": "Nigeria",
-                      "code": "NGA",
-                      "currency_code": "NGN",
-                      "channels": [
-                        "bank"
-                      ]
-                    },
-                    {
-                      "name": "United Kingdom",
-                      "code": "GBR",
-                      "currency_code": "GBP",
-                      "channels": [
-                        "bank"
-                      ]
-                    },
-                    {
-                      "name": "United States",
-                      "code": "USA",
-                      "currency_code": "USD",
-                      "channels": [
-                        "bank"
-                      ]
-                    }
-                  ],
-                  "meta": {
-                    "timestamp": "2026-03-19T19:26:19.577Z"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/transfers/{country_code}/configuration-options": {
-      "get": {
-        "description": "Retrieve configuration requirements for a destination country",
-        "parameters": [
-          {
-            "name": "country_code",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "examples": [
-                "NGA"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Configuration options retrieved successfully",
-            "content": {
-              "application/json": {
-                "example": {
-                  "success": true,
-                  "message": "Operation successful",
-                  "data": {
-                    "supportsAccountLookup": true,
-                    "bankListAvailable": true,
-                    "beneficiarySchema": [
-                      {
-                        "key": "accountNumber",
-                        "name": "Account Number",
-                        "type": "string"
+        },
+        "/transfers/account-lookup": {
+          "post": {
+            "description": "Account Name Lookup",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "country_code",
+                      "bank_code",
+                      "account_number"
+                    ],
+                    "properties": {
+                      "country_code": {
+                        "type": "string",
+                        "examples": [
+                          "NGA"
+                        ]
                       },
-                      {
-                        "key": "bankCode",
-                        "name": "Bank",
-                        "type": "string"
+                      "bank_code": {
+                        "type": "string",
+                        "examples": [
+                          "090483"
+                        ]
                       },
-                      {
-                        "key": "accountName",
-                        "name": "Account Name",
-                        "type": "string"
+                      "account_number": {
+                        "type": "string",
+                        "examples": [
+                          "2120894439"
+                        ]
                       }
-                    ]
-                  },
-                  "meta": {
-                    "timestamp": "2026-03-19T19:26:42.817Z"
+                    }
                   }
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    "/subscription-plans": {
-      "get": {
-        "description": "Retrieve a list of subscription plans.",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "examples": [
-                1
-              ]
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "examples": [
-                100
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
-          }
-        }
-      },
-      "post": {
-        "description": "Create a new subscription plan.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "example": {
-                "name": "",
-                "price": 45000,
-                "currencyCode": "NGN",
-                "description": "string",
-                "tags": [],
-                "interval": "month",
-                "status": "active",
-                "reference": "string"
-              }
-            }
-          }
-        },
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
-          }
-        }
-      }
-    },
-    "/subscription-plans/{id}": {
-      "get": {
-        "description": "Retrieve details of a specific subscription plan by ID.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
-          }
-        }
-      },
-      "patch": {
-        "description": "Update an existing subscription plan.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "example": {
-                "name": "",
-                "price": 45000,
-                "currencyCode": "NGN",
-                "description": "string",
-                "tags": [],
-                "interval": "month",
-                "status": "active",
-                "reference": "string"
-              }
-            }
-          }
-        },
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
-          }
-        }
-      },
-      "delete": {
-        "description": "Delete a subscription plan by ID.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
-          }
-        }
-      }
-    },
-    "/gateway/subscription-payments/cards": {
-      "post": {
-        "description": "Add a new card for subscription payments.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "example": {
-                "merchantReference": "",
-                "customerReference": "",
-                "authorizationToken": "",
-                "holder": "",
-                "network": "",
-                "first6": "",
-                "last4": "",
-                "isDefault": true
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Card created successfully"
-          }
-        }
-      }
-    },
-    "/gateway/subscription-payments/cards/{id}": {
-      "delete": {
-        "description": "Delete a saved card by ID.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Card deleted successfully"
-          }
-        }
-      }
-    },
-    "/gateway/subscription-payments/cards/default": {
-      "patch": {
-        "description": "Set a default card for a customer.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "example": {
-                "customerReference": "",
-                "cardId": ""
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Card set successfully"
-          }
-        }
-      }
-    },
-    "/gateway/subscription-payments": {
-      "get": {
-        "description": "Retrieve a list of subscription payments.",
-        "responses": {
-          "200": {
-            "description": "successfully"
-          }
-        }
-      }
-    },
-    "/gateway/subscription-payments/{id}": {
-      "get": {
-        "description": "Retrieve details of a specific subscription payment by ID.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successfully"
-          }
-        }
-      }
-    },
-    "/gateway/subscription-payments/{id}/retry": {
-      "post": {
-        "description": "Retry a failed subscription payment.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successfully"
-          }
-        }
-      }
-    },
-    "/subscriptions": {
-      "get": {
-        "description": "Retrieve a paginated list of subscriptions with optional filters for customerReference and subscriptionPlanId.",
-        "parameters": [
-          {
-            "name": "customerReference",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "subscriptionPlanId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 100
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
-          }
-        }
-      },
-      "post": {
-        "description": "Create a new subscription for a customer using a subscription plan and card.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "subscriptionPlanId": {
-                    "type": "string"
-                  },
-                  "customerReference": {
-                    "type": "string"
-                  },
-                  "cardId": {
-                    "type": "string"
-                  },
-                  "autocharge": {
-                    "type": "boolean"
+            },
+            "responses": {
+              "201": {
+                "description": "Account lookup successful",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "result": {
+                              "type": "string",
+                              "example": "John Doe"
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
             }
           }
         },
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
-          }
-        }
-      }
-    },
-    "/subscriptions/{id}": {
-      "get": {
-        "description": "Retrieve details of a specific subscription by ID.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+        "/transfers/bank": {
+          "post": {
+            "description": "Initiate Bank Transfer",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "sourceCurrencyCode",
+                      "recipientCountryCode",
+                      "amount",
+                      "beneficiaryDetails"
+                    ],
+                    "properties": {
+                      "sourceCurrencyCode": {
+                        "type": "string",
+                        "examples": [
+                          "NGN"
+                        ]
+                      },
+                      "recipientCountryCode": {
+                        "type": "string",
+                        "examples": [
+                          "NGA"
+                        ]
+                      },
+                      "amount": {
+                        "type": "number",
+                        "examples": [
+                          50000
+                        ]
+                      },
+                      "note": {
+                        "type": "string",
+                        "examples": [
+                          "Test send"
+                        ]
+                      },
+                      "beneficiaryDetails": {
+                        "type": "object",
+                        "properties": {
+                          "bankCode": {
+                            "type": "string"
+                          },
+                          "accountNumber": {
+                            "type": "string"
+                          },
+                          "accountName": {
+                            "type": "string"
+                          },
+                          "firstName": {
+                            "type": "string"
+                          },
+                          "lastName": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Transfer initiated",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "merchant_reference": {
+                              "type": "string"
+                            },
+                            "reference": {
+                              "type": "string"
+                            },
+                            "status": {
+                              "type": "string"
+                            },
+                            "currency_code": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
-        ],
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
+        },
+        "/transfers/preview": {
+          "post": {
+            "description": "Preview Bank Transfer",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "recipient_country_code",
+                      "amount"
+                    ],
+                    "properties": {
+                      "recipient_country_code": {
+                        "type": "string",
+                        "examples": [
+                          "NGA"
+                        ]
+                      },
+                      "amount": {
+                        "type": "number",
+                        "examples": [
+                          3000
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "201": {
+                "description": "Preview created",
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "recipient_name": {
+                              "type": "string"
+                            },
+                            "reference": {
+                              "type": "string"
+                            },
+                            "amount": {
+                              "type": "number"
+                            },
+                            "currency_code": {
+                              "type": "string"
+                            },
+                            "url": {
+                              "type": "string"
+                            },
+                            "channels": {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/transfers/{reference}/status": {
+          "get": {
+            "description": "Retrieve the status of a bank transfer using its reference",
+            "parameters": [
+              {
+                "name": "reference",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "examples": [
+                    "TX-1773947599640-1453"
+                  ]
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Transfer status retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "example": {
+                      "success": true,
+                      "message": "Operation successful",
+                      "data": {
+                        "success": true,
+                        "message": "Query successful",
+                        "data": {
+                          "reference": "TX-1773947599640-1453",
+                          "status": "successful",
+                          "currency_code": "NGN",
+                          "amount": "500.00000000"
+                        }
+                      },
+                      "meta": {
+                        "timestamp": "2026-03-19T19:50:10.817Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/transfers/supported-countries": {
+          "get": {
+            "description": "Fetch all supported countries for remittance transfers",
+            "responses": {
+              "200": {
+                "description": "Supported countries retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "example": {
+                      "success": true,
+                      "message": "Operation successful",
+                      "data": [
+                        {
+                          "name": "Nigeria",
+                          "code": "NGA",
+                          "currency_code": "NGN",
+                          "channels": [
+                            "bank"
+                          ]
+                        },
+                        {
+                          "name": "United Kingdom",
+                          "code": "GBR",
+                          "currency_code": "GBP",
+                          "channels": [
+                            "bank"
+                          ]
+                        },
+                        {
+                          "name": "United States",
+                          "code": "USA",
+                          "currency_code": "USD",
+                          "channels": [
+                            "bank"
+                          ]
+                        }
+                      ],
+                      "meta": {
+                        "timestamp": "2026-03-19T19:26:19.577Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/transfers/{country_code}/configuration-options": {
+          "get": {
+            "description": "Retrieve configuration requirements for a destination country",
+            "parameters": [
+              {
+                "name": "country_code",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "examples": [
+                    "NGA"
+                  ]
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Configuration options retrieved successfully",
+                "content": {
+                  "application/json": {
+                    "example": {
+                      "success": true,
+                      "message": "Operation successful",
+                      "data": {
+                        "supportsAccountLookup": true,
+                        "bankListAvailable": true,
+                        "beneficiarySchema": [
+                          {
+                            "key": "accountNumber",
+                            "name": "Account Number",
+                            "type": "string"
+                          },
+                          {
+                            "key": "bankCode",
+                            "name": "Bank",
+                            "type": "string"
+                          },
+                          {
+                            "key": "accountName",
+                            "name": "Account Name",
+                            "type": "string"
+                          }
+                        ]
+                      },
+                      "meta": {
+                        "timestamp": "2026-03-19T19:26:42.817Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "/subscription-plans": {
+          "get": {
+            "description": "Retrieve a list of subscription plans.",
+            "parameters": [
+              {
+                "name": "page",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    1
+                  ]
+                }
+              },
+              {
+                "name": "limit",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "examples": [
+                    100
+                  ]
+                }
+              }
+            ],
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
+            }
           },
-          "404": {
-            "description": "Subscription not found"
-          }
-        }
-      }
-    },
-    "/subscriptions/{id}/cancel": {
-      "post": {
-        "description": "Cancel an active subscription.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+          "post": {
+            "description": "Create a new subscription plan.",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "example": {
+                    "name": "",
+                    "price": 45000,
+                    "currencyCode": "NGN",
+                    "description": "string",
+                    "tags": [],
+                    "interval": "month",
+                    "status": "active",
+                    "reference": "string"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
             }
           }
-        ],
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
-          }
-        }
-      }
-    },
-    "/subscriptions/{id}/pause": {
-      "post": {
-        "description": "Pause an active subscription temporarily.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+        },
+        "/subscription-plans/{id}": {
+          "get": {
+            "description": "Retrieve details of a specific subscription plan by ID.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
+            }
+          },
+          "patch": {
+            "description": "Update an existing subscription plan.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "example": {
+                    "name": "",
+                    "price": 45000,
+                    "currencyCode": "NGN",
+                    "description": "string",
+                    "tags": [],
+                    "interval": "month",
+                    "status": "active",
+                    "reference": "string"
+                  }
+                }
+              }
+            },
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
+            }
+          },
+          "delete": {
+            "description": "Delete a subscription plan by ID.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
             }
           }
-        ],
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
-          }
-        }
-      }
-    },
-    "/subscriptions/{id}/charge": {
-      "post": {
-        "description": "Manually trigger a charge for a subscription.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+        },
+        "/gateway/subscription-payments/cards": {
+          "post": {
+            "description": "Add a new card for subscription payments.",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "example": {
+                    "merchantReference": "",
+                    "customerReference": "",
+                    "authorizationToken": "",
+                    "holder": "",
+                    "network": "",
+                    "first6": "",
+                    "last4": "",
+                    "isDefault": true
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Card created successfully"
+              }
             }
           }
-        ],
-        "responses": {
-          "401": {
-            "description": "Missing API credentials"
+        },
+        "/gateway/subscription-payments/cards/{id}": {
+          "delete": {
+            "description": "Delete a saved card by ID.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Card deleted successfully"
+              }
+            }
+          }
+        },
+        "/gateway/subscription-payments/cards/default": {
+          "patch": {
+            "description": "Set a default card for a customer.",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "example": {
+                    "customerReference": "",
+                    "cardId": ""
+                  }
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Card set successfully"
+              }
+            }
+          }
+        },
+        "/gateway/subscription-payments": {
+          "get": {
+            "description": "Retrieve a list of subscription payments.",
+            "responses": {
+              "200": {
+                "description": "successfully"
+              }
+            }
+          }
+        },
+        "/gateway/subscription-payments/{id}": {
+          "get": {
+            "description": "Retrieve details of a specific subscription payment by ID.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "successfully"
+              }
+            }
+          }
+        },
+        "/gateway/subscription-payments/{id}/retry": {
+          "post": {
+            "description": "Retry a failed subscription payment.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "successfully"
+              }
+            }
+          }
+        },
+        "/subscriptions": {
+          "get": {
+            "description": "Retrieve a paginated list of subscriptions with optional filters for customerReference and subscriptionPlanId.",
+            "parameters": [
+              {
+                "name": "customerReference",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "subscriptionPlanId",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
+              },
+              {
+                "name": "page",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "default": 1
+                }
+              },
+              {
+                "name": "limit",
+                "in": "query",
+                "required": false,
+                "schema": {
+                  "type": "integer",
+                  "default": 100
+                }
+              }
+            ],
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
+            }
+          },
+          "post": {
+            "description": "Create a new subscription for a customer using a subscription plan and card.",
+            "requestBody": {
+              "required": true,
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "subscriptionPlanId": {
+                        "type": "string"
+                      },
+                      "customerReference": {
+                        "type": "string"
+                      },
+                      "cardId": {
+                        "type": "string"
+                      },
+                      "autocharge": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
+            }
+          }
+        },
+        "/subscriptions/{id}": {
+          "get": {
+            "description": "Retrieve details of a specific subscription by ID.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              },
+              "404": {
+                "description": "Subscription not found"
+              }
+            }
+          }
+        },
+        "/subscriptions/{id}/cancel": {
+          "post": {
+            "description": "Cancel an active subscription.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
+            }
+          }
+        },
+        "/subscriptions/{id}/pause": {
+          "post": {
+            "description": "Pause an active subscription temporarily.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
+            }
+          }
+        },
+        "/subscriptions/{id}/charge": {
+          "post": {
+            "description": "Manually trigger a charge for a subscription.",
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "responses": {
+              "401": {
+                "description": "Missing API credentials"
+              }
+            }
           }
         }
       }
