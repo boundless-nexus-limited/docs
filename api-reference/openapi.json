@@ -194,13 +194,13 @@
                     "description": "Source currency code",
                     "example": "XRP"
                   },
-                  "to":{
-                    "typer": "string",
-                    "description":"Target currency code",
+                  "to": {
+                    "type": "string",
+                    "description": "Target currency code",
                     "example": "NGN"
                   },
-                  "amount":{
-                    "type":"integer",
+                  "amount": {
+                    "type": "integer",
                     "description": "Amount to convert",
                     "example": 1
                   }
@@ -215,6 +215,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "success": {
                       "type": "boolean",
@@ -242,23 +243,23 @@
                             "example": 1
                           },
                           "toAmount": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 0.85
                           },
                           "rate": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 0.85
                           },
                           "value": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 0.85
                           },
                           "fromAmountInUSD": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 1.1764705882352942
                           },
                           "fromAmountInUSDRate": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 1.1764705882352942
                           },
                           "id": {
@@ -273,6 +274,7 @@
                       }
                     },
                     "meta": {
+                      "type": "object",
                       "timestamp": {
                         "type": "string",
                         "format": "date-time",
@@ -301,19 +303,23 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["from", "to", "amount"],
-                "properties":{
-                  "to":{
-                    "type":"string",
+                "required": [
+                  "from",
+                  "to",
+                  "amount"
+                ],
+                "properties": {
+                  "to": {
+                    "type": "string",
                     "description": "Target currency code",
                     "example": "NGN"
                   },
-                  "from":{
+                  "from": {
                     "type": "string",
                     "description": "Source currency code",
                     "example": "BTC"
                   },
-                  "amount":{
+                  "amount": {
                     "type": "integer",
                     "description": "Amount qouted",
                     "example": 1
@@ -357,23 +363,23 @@
                             "example": 1
                           },
                           "toAmount": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 0.85
                           },
                           "rate": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 0.85
                           },
                           "value": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 0.85
                           },
                           "fromAmountInUSD": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 1.1764705882352942
                           },
                           "fromAmountInUSDRate": {
-                            "type": "integer",
+                            "type": "number",
                             "example": 1.1764705882352942
                           },
                           "id": {
@@ -388,6 +394,7 @@
                       }
                     },
                     "meta": {
+                      "type": "object",
                       "timestamp": {
                         "type": "string",
                         "format": "date-time",
@@ -446,24 +453,21 @@
                       "properties": {
                         "reference": {
                           "type": "string",
-                          "example": "vl035tap5ocfofjb"
+                          "example": "rp1xwfiohwxr9gp"
                         },
                         "email": {
                           "type": "string",
                           "format": "email",
-                          "examples": [
-                            "nwakasistephenifeanyi2@gmail.com"
-                          ]
+                          "example": "example@gmail.com"
                         },
                         "status": {
                           "type": "string",
-                          "examples": [
-                            "pending"
-                          ]
+                          "example": "pending"
                         },
                         "createdAt": {
                           "type": "string",
-                          "format": "date-time"
+                          "format": "date-time",
+                          "example": "2026-03-20T13:36:18Z"
                         }
                       }
                     },
@@ -472,7 +476,8 @@
                       "properties": {
                         "timestamp": {
                           "type": "string",
-                          "format": "date-time"
+                          "format": "date-time",
+                          "example": "2026-03-25T07:09:06Z"
                         }
                       }
                     }
@@ -506,28 +511,9 @@
         }
       },
       "get": {
-        "summary": "List Sub Accounts",
         "description": "Retrieve a paginated list of sub-accounts belonging to the authenticated business. Optional filters supported.",
         "parameters": [
-          {
-            "name": "email",
-            "in": "query",
-            "description": "Filter by sub-account email (exact match)",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "email"
-            }
-          },
-          {
-            "name": "reference",
-            "in": "query",
-            "description": "Filter by sub-account reference",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
+          
           {
             "name": "page",
             "in": "query",
@@ -548,7 +534,7 @@
               "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20
+              "default": 10
             }
           }
         ],
@@ -562,28 +548,92 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [
-                        true
-                      ]
+                      "example": true
                     },
                     "message": {
                       "type": "string",
-                      "examples": [
-                        "Sub-accounts retrieved"
-                      ]
+                      "example": "Operation Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "records": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "example": 5
+                              },
+                              "userId": {
+                                "type": "integer",
+                                "example": 1
+                              },
+                              "businessId": {
+                                "type": "string",
+                                "example": "9689c9df-a313-4c5b-b71a-056c89b90978"
+                              },
+                              "reference": {
+                                "type": "string",
+                                "example": "n2gne6jy1lo31ynt"
+                              },
+                              "email": {
+                                "type": "string",
+                                "format": "email",
+                                "example": "example@gmail.com"
+                              },
+                              "generatedEmail": {
+                                "type": "string",
+                                "example": "sub-n2gne6jy1lo31ynt-example@gmail.com"
+                              },
+                              "quidaxSubAccountId": {
+                                "type": "string",
+                                "example": "irnwept4cx"
+                              },
+                              "active": {
+                                "type": "integer",
+                                "example": 1
+                              },
+                              "deletedAt": {
+                                "type": "string",
+                                "nullable": true,
+                                "example": null
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2026-03-15T20:07:33.000+01:00"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2026-03-15T20:07:33.000+01:00"
+                              }
+                            }
+                          }
+                        },
+                        "total": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "perPage": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "currentPage": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "lastPage": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
                     },
                     "meta": {
                       "type": "object",
                       "properties": {
-                        "total": {
-                          "type": "integer"
-                        },
-                        "page": {
-                          "type": "integer"
-                        },
-                        "limit": {
-                          "type": "integer"
-                        },
                         "timestamp": {
                           "type": "string",
                           "format": "date-time"
@@ -617,9 +667,7 @@
             "description": "Unique reference of the sub-account",
             "schema": {
               "type": "string",
-              "examples": [
-                "vl035tap5ocfofjb"
-              ]
+              "example": "vl035tap5ocfofjb"
             }
           }
         ],
@@ -633,17 +681,65 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [
-                        true
-                      ]
+                      "example": true
                     },
                     "message": {
                       "type": "string",
-                      "examples": [
-                        "Sub-account found"
-                      ]
+                      "example": "Operation Successful"
                     },
-                    "data": {},
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "userId": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "businessId": {
+                          "type": "string",
+                          "example": "9689c9df-a313-4c5b-b71a-056c89b90978"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "example": "n2gne6jy1lo31ynt"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email",
+                          "example": "example@gmail.com"
+                        },
+                        "generatedEmail": {
+                          "type": "string",
+                          "example": "sub-n2gne6jy1lo31ynt-example@gmail.com"
+                        },
+                        "quidaxSubAccountId": {
+                          "type": "string",
+                          "example": "irnwept4cx"
+                        },
+                        "active": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "deletedAt": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": null
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-21T20:07:33.000+01:00"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-24T20:07:33.000+01:00"
+                        }
+                      }
+                    },
                     "meta": {
                       "type": "object",
                       "properties": {
