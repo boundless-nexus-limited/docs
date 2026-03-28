@@ -784,42 +784,45 @@
                 "type": "object",
                 "properties": {
                   "reference": {
-                    "type": "string"
+                    "type": "string",
+                    "example":"9689c0df-a313-4a5b-b71"
                   },
                   "currency_code": {
                     "type": "string",
-                    "examples": [
+                    "example": 
                       "NGN"
-                    ]
+                    
                   },
                   "amount": {
                     "type": "number",
-                    "examples": [
+                    "example": 
                       5000
-                    ]
+                    
                   },
                   "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example":"food payment"
                   },
                   "customer": {
                     "type": "object",
                     "properties": {
                       "first_name": {
-                        "type": "string"
+                        "type": "string",
+                        "example":"John"
                       },
                       "last_name": {
-                        "type": "string"
+                        "type": "string",
+                        "example":"Doe"
                       },
                       "email": {
-                        "type": "string"
+                        "type": "string",
+                        "example":"johndoe@gmail.com"
                       },
                       "phone_number": {
-                        "type": "string"
+                        "type": "string",
+                        "example":"08012345678"
                       }
                     }
-                  },
-                  "metadata": {
-                    "type": "object"
                   }
                 }
               }
@@ -828,7 +831,61 @@
         },
         "responses": {
           "200": {
-            "description": "Order created successfully"
+            "description": "Order created successfully",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "properties":{
+                    "success":{
+                      "type":"boolean",
+                      "example": true
+                    },
+                    "message":{
+                      "type": "string",
+                      "example":"Operation Successful"
+                    },
+                    "data":{
+                      "type":"object",
+                      "properties":{
+                        "recipient_name":{
+                          "type":"string",
+                          "example":"bsuitetest llc"
+                        },
+                        "reference":{
+                          "type":"string",
+                          "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
+                        },
+                        "amount":{
+                          "type":"string",
+                          "example": "5000"
+                        },
+                        "currencyCode":{
+                          "type":"string",
+                          "example": "NGN"
+                        },
+                        "url":{
+                          "type":"string",
+                          "example": "https://payments.dev.boundlesspay.com?ref=9689c0df-a313-4a5b-b71a-056c89b90977"
+                        },
+                        "channels":{
+                          "type":"array",
+                          "example": "card"
+                        }
+                      },
+                      "meta":{
+                        "timestamp":{
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T18:36:18Z"
+                        }
+                      }
+                    }
+
+                  }
+                }
+              }
+            }
+            
           },
           "401": {
             "description": "Unauthorized"
