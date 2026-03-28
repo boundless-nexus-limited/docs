@@ -513,7 +513,6 @@
       "get": {
         "description": "Retrieve a paginated list of sub-accounts belonging to the authenticated business. Optional filters supported.",
         "parameters": [
-          
           {
             "name": "page",
             "in": "query",
@@ -785,42 +784,38 @@
                 "properties": {
                   "reference": {
                     "type": "string",
-                    "example":"9689c0df-a313-4a5b-b71"
+                    "example": "9689c0df-a313-4a5b-b71"
                   },
                   "currency_code": {
                     "type": "string",
-                    "example": 
-                      "NGN"
-                    
+                    "example": "NGN"
                   },
                   "amount": {
                     "type": "number",
-                    "example": 
-                      5000
-                    
+                    "example": 5000
                   },
                   "description": {
                     "type": "string",
-                    "example":"food payment"
+                    "example": "food payment"
                   },
                   "customer": {
                     "type": "object",
                     "properties": {
                       "first_name": {
                         "type": "string",
-                        "example":"John"
+                        "example": "John"
                       },
                       "last_name": {
                         "type": "string",
-                        "example":"Doe"
+                        "example": "Doe"
                       },
                       "email": {
                         "type": "string",
-                        "example":"johndoe@gmail.com"
+                        "example": "johndoe@gmail.com"
                       },
                       "phone_number": {
                         "type": "string",
-                        "example":"08012345678"
+                        "example": "08012345678"
                       }
                     }
                   }
@@ -832,60 +827,58 @@
         "responses": {
           "200": {
             "description": "Order created successfully",
-            "content":{
-              "application/json":{
-                "schema":{
-                  "properties":{
-                    "success":{
-                      "type":"boolean",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
                       "example": true
                     },
-                    "message":{
+                    "message": {
                       "type": "string",
-                      "example":"Operation Successful"
+                      "example": "Operation Successful"
                     },
-                    "data":{
-                      "type":"object",
-                      "properties":{
-                        "recipient_name":{
-                          "type":"string",
-                          "example":"bsuitetest llc"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "recipient_name": {
+                          "type": "string",
+                          "example": "bsuitetest llc"
                         },
-                        "reference":{
-                          "type":"string",
+                        "reference": {
+                          "type": "string",
                           "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
                         },
-                        "amount":{
-                          "type":"string",
+                        "amount": {
+                          "type": "string",
                           "example": "5000"
                         },
-                        "currencyCode":{
-                          "type":"string",
+                        "currencyCode": {
+                          "type": "string",
                           "example": "NGN"
                         },
-                        "url":{
-                          "type":"string",
+                        "url": {
+                          "type": "string",
                           "example": "https://payments.dev.boundlesspay.com?ref=9689c0df-a313-4a5b-b71a-056c89b90977"
                         },
-                        "channels":{
-                          "type":"array",
+                        "channels": {
+                          "type": "array",
                           "example": "card"
                         }
                       },
-                      "meta":{
-                        "timestamp":{
+                      "meta": {
+                        "timestamp": {
                           "type": "string",
                           "format": "date-time",
                           "example": "2026-03-20T18:36:18Z"
                         }
                       }
                     }
-
                   }
                 }
               }
             }
-            
           },
           "401": {
             "description": "Unauthorized"
@@ -894,39 +887,40 @@
       },
       "get": {
         "description": "Retrieve all orders",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "reference",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Orders retrieved successfully"
+            "description": "Orders retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Data retrived successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties":{
+                          "id":{
+                            "type":"integer",
+                            "example": 19
+                          }
+
+                        }
+                        
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
