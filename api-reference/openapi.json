@@ -15,7 +15,6 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": ["success", "message", "data"],
                   "properties": {
                     "success": {
                       "type": "boolean",
@@ -93,13 +92,13 @@
     },
     "/currencies": {
       "get": {
-        "description": "Retrieve a list of supported fiat and crypto currencies",
+        "description": "Use this to retrieve a list of supported fiat and crypto currencies",
         "parameters": [
           {
             "name": "type",
             "in": "query",
             "description": "Filter by currency type (crypto or fiat)",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string",
               "enum": [
@@ -123,7 +122,47 @@
             "description": "Currencies retrieved successfully",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation successful"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Nigerian naira"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "symbol": {
+                            "type": "string",
+                            "example": "₦"
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "fiat"
+                          },
+                          "network": {
+                            "type": "array",
+                            "example": []
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -132,8 +171,7 @@
     },
     "/currencies/conversion": {
       "post": {
-        "summary": "Create a conversion",
-        "description": "Convert one currency to another",
+        "description": "Use this to convert one currency to another",
         "security": [
           {
             "ApiKeyAuth": []
@@ -143,7 +181,31 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {}
+              "schema": {
+                "type": "object",
+                "required": [
+                  "from",
+                  "to",
+                  "amount"
+                ],
+                "properties": {
+                  "from": {
+                    "type": "string",
+                    "description": "Source currency code",
+                    "example": "XRP"
+                  },
+                  "to": {
+                    "type": "string",
+                    "description": "Target currency code",
+                    "example": "NGN"
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "description": "Amount to convert",
+                    "example": 1
+                  }
+                }
+              }
             }
           }
         },
@@ -153,7 +215,73 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation successful"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "from": {
+                            "type": "string",
+                            "example": "XRP"
+                          },
+                          "to": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "fromAmount": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "toAmount": {
+                            "type": "number",
+                            "example": 0.85
+                          },
+                          "rate": {
+                            "type": "number",
+                            "example": 0.85
+                          },
+                          "value": {
+                            "type": "number",
+                            "example": 0.85
+                          },
+                          "fromAmountInUSD": {
+                            "type": "number",
+                            "example": 1.1764705882352942
+                          },
+                          "fromAmountInUSDRate": {
+                            "type": "number",
+                            "example": 1.1764705882352942
+                          },
+                          "id": {
+                            "type": "string",
+                            "example": "j8bq9pw3ir"
+                          },
+                          "expiration": {
+                            "type": "integer",
+                            "example": 60
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-03-20T13:36:18Z"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -163,8 +291,7 @@
     },
     "/currencies/quotation": {
       "post": {
-        "summary": "Create a quote",
-        "description": "Generate a currency conversion quote",
+        "description": "Use this to generate a currency conversion quote",
         "security": [
           {
             "ApiKeyAuth": []
@@ -174,7 +301,31 @@
           "required": true,
           "content": {
             "application/json": {
-              "schema": {}
+              "schema": {
+                "type": "object",
+                "required": [
+                  "from",
+                  "to",
+                  "amount"
+                ],
+                "properties": {
+                  "to": {
+                    "type": "string",
+                    "description": "Target currency code",
+                    "example": "NGN"
+                  },
+                  "from": {
+                    "type": "string",
+                    "description": "Source currency code",
+                    "example": "BTC"
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "description": "Amount qouted",
+                    "example": 1
+                  }
+                }
+              }
             }
           }
         },
@@ -184,7 +335,73 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation successful"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "from": {
+                            "type": "string",
+                            "example": "BTC"
+                          },
+                          "to": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "fromAmount": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "toAmount": {
+                            "type": "number",
+                            "example": 0.85
+                          },
+                          "rate": {
+                            "type": "number",
+                            "example": 0.85
+                          },
+                          "value": {
+                            "type": "number",
+                            "example": 0.85
+                          },
+                          "fromAmountInUSD": {
+                            "type": "number",
+                            "example": 1.1764705882352942
+                          },
+                          "fromAmountInUSDRate": {
+                            "type": "number",
+                            "example": 1.1764705882352942
+                          },
+                          "id": {
+                            "type": "string",
+                            "example": "c22pwu80wju"
+                          },
+                          "expiration": {
+                            "type": "integer",
+                            "example": 60
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-03-20T18:36:18Z"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -208,9 +425,7 @@
                   "email": {
                     "type": "string",
                     "format": "email",
-                    "examples": [
-                      "nwakasistephenifeanyi2@gmail.com"
-                    ]
+                    "example": "example@gmail.com"
                   }
                 }
               }
@@ -227,41 +442,32 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [
-                        true
-                      ]
+                      "example": true
                     },
                     "message": {
                       "type": "string",
-                      "examples": [
-                        "Sub-account created successfully"
-                      ]
+                      "example": "Sub-account created successfully"
                     },
                     "data": {
                       "type": "object",
                       "properties": {
                         "reference": {
                           "type": "string",
-                          "examples": [
-                            "vl035tap5ocfofjb"
-                          ]
+                          "example": "rp1xwfiohwxr9gp"
                         },
                         "email": {
                           "type": "string",
                           "format": "email",
-                          "examples": [
-                            "nwakasistephenifeanyi2@gmail.com"
-                          ]
+                          "example": "example@gmail.com"
                         },
                         "status": {
                           "type": "string",
-                          "examples": [
-                            "pending"
-                          ]
+                          "example": "pending"
                         },
                         "createdAt": {
                           "type": "string",
-                          "format": "date-time"
+                          "format": "date-time",
+                          "example": "2026-03-20T13:36:18Z"
                         }
                       }
                     },
@@ -270,7 +476,8 @@
                       "properties": {
                         "timestamp": {
                           "type": "string",
-                          "format": "date-time"
+                          "format": "date-time",
+                          "example": "2026-03-25T07:09:06Z"
                         }
                       }
                     }
@@ -304,28 +511,8 @@
         }
       },
       "get": {
-        "summary": "List Sub Accounts",
         "description": "Retrieve a paginated list of sub-accounts belonging to the authenticated business. Optional filters supported.",
         "parameters": [
-          {
-            "name": "email",
-            "in": "query",
-            "description": "Filter by sub-account email (exact match)",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "email"
-            }
-          },
-          {
-            "name": "reference",
-            "in": "query",
-            "description": "Filter by sub-account reference",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "page",
             "in": "query",
@@ -346,7 +533,7 @@
               "type": "integer",
               "minimum": 1,
               "maximum": 100,
-              "default": 20
+              "default": 10
             }
           }
         ],
@@ -360,28 +547,92 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [
-                        true
-                      ]
+                      "example": true
                     },
                     "message": {
                       "type": "string",
-                      "examples": [
-                        "Sub-accounts retrieved"
-                      ]
+                      "example": "Operation Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "records": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer",
+                                "example": 5
+                              },
+                              "userId": {
+                                "type": "integer",
+                                "example": 1
+                              },
+                              "businessId": {
+                                "type": "string",
+                                "example": "9689c9df-a313-4c5b-b71a-056c89b90978"
+                              },
+                              "reference": {
+                                "type": "string",
+                                "example": "n2gne6jy1lo31ynt"
+                              },
+                              "email": {
+                                "type": "string",
+                                "format": "email",
+                                "example": "example@gmail.com"
+                              },
+                              "generatedEmail": {
+                                "type": "string",
+                                "example": "sub-n2gne6jy1lo31ynt-example@gmail.com"
+                              },
+                              "quidaxSubAccountId": {
+                                "type": "string",
+                                "example": "irnwept4cx"
+                              },
+                              "active": {
+                                "type": "integer",
+                                "example": 1
+                              },
+                              "deletedAt": {
+                                "type": "string",
+                                "nullable": true,
+                                "example": null
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2026-03-15T20:07:33.000+01:00"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time",
+                                "example": "2026-03-15T20:07:33.000+01:00"
+                              }
+                            }
+                          }
+                        },
+                        "total": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "perPage": {
+                          "type": "integer",
+                          "example": 10
+                        },
+                        "currentPage": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "lastPage": {
+                          "type": "integer",
+                          "example": 1
+                        }
+                      }
                     },
                     "meta": {
                       "type": "object",
                       "properties": {
-                        "total": {
-                          "type": "integer"
-                        },
-                        "page": {
-                          "type": "integer"
-                        },
-                        "limit": {
-                          "type": "integer"
-                        },
                         "timestamp": {
                           "type": "string",
                           "format": "date-time"
@@ -415,9 +666,7 @@
             "description": "Unique reference of the sub-account",
             "schema": {
               "type": "string",
-              "examples": [
-                "vl035tap5ocfofjb"
-              ]
+              "example": "vl035tap5ocfofjb"
             }
           }
         ],
@@ -431,17 +680,65 @@
                   "properties": {
                     "success": {
                       "type": "boolean",
-                      "examples": [
-                        true
-                      ]
+                      "example": true
                     },
                     "message": {
                       "type": "string",
-                      "examples": [
-                        "Sub-account found"
-                      ]
+                      "example": "Operation Successful"
                     },
-                    "data": {},
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "userId": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "businessId": {
+                          "type": "string",
+                          "example": "9689c9df-a313-4c5b-b71a-056c89b90978"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "example": "n2gne6jy1lo31ynt"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email",
+                          "example": "example@gmail.com"
+                        },
+                        "generatedEmail": {
+                          "type": "string",
+                          "example": "sub-n2gne6jy1lo31ynt-example@gmail.com"
+                        },
+                        "quidaxSubAccountId": {
+                          "type": "string",
+                          "example": "irnwept4cx"
+                        },
+                        "active": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "deletedAt": {
+                          "type": "string",
+                          "nullable": true,
+                          "example": null
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-21T20:07:33.000+01:00"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-24T20:07:33.000+01:00"
+                        }
+                      }
+                    },
                     "meta": {
                       "type": "object",
                       "properties": {
@@ -486,42 +783,41 @@
                 "type": "object",
                 "properties": {
                   "reference": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "9689c0df-a313-4a5b-b71"
                   },
                   "currency_code": {
                     "type": "string",
-                    "examples": [
-                      "NGN"
-                    ]
+                    "example": "NGN"
                   },
                   "amount": {
                     "type": "number",
-                    "examples": [
-                      5000
-                    ]
+                    "example": 5000
                   },
                   "description": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "food payment"
                   },
                   "customer": {
                     "type": "object",
                     "properties": {
                       "first_name": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "John"
                       },
                       "last_name": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "Doe"
                       },
                       "email": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "johndoe@gmail.com"
                       },
                       "phone_number": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "08012345678"
                       }
                     }
-                  },
-                  "metadata": {
-                    "type": "object"
                   }
                 }
               }
@@ -530,7 +826,59 @@
         },
         "responses": {
           "200": {
-            "description": "Order created successfully"
+            "description": "Order created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "recipient_name": {
+                          "type": "string",
+                          "example": "bsuitetest llc"
+                        },
+                        "reference": {
+                          "type": "string",
+                          "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
+                        },
+                        "amount": {
+                          "type": "string",
+                          "example": "5000"
+                        },
+                        "currencyCode": {
+                          "type": "string",
+                          "example": "NGN"
+                        },
+                        "url": {
+                          "type": "string",
+                          "example": "https://payments.dev.boundlesspay.com?ref=9689c0df-a313-4a5b-b71a-056c89b90977"
+                        },
+                        "channels": {
+                          "type": "array",
+                          "example": "card"
+                        }
+                      },
+                      "meta": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T18:36:18Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -539,39 +887,40 @@
       },
       "get": {
         "description": "Retrieve all orders",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "reference",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Orders retrieved successfully"
+            "description": "Orders retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Data retrived successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties":{
+                          "id":{
+                            "type":"integer",
+                            "example": 19
+                          }
+
+                        }
+                        
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
