@@ -907,14 +907,122 @@
                       "type": "array",
                       "items": {
                         "type": "object",
-                        "properties":{
-                          "id":{
-                            "type":"integer",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
                             "example": 19
+                          },
+                          "internalReference": {
+                            "type": "string",
+                            "example": "019d110b-c47f-7b86-8f87-c18c70b24f9f"
+                          },
+                          "reference": {
+                            "type": "string",
+                            "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Food payment"
+                          },
+                          "currencyCode": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "recipientName": {
+                            "type": "string",
+                            "example": "bsuitetest llc"
+                          },
+                          "userId": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "businessId": {
+                            "type": "string",
+                            "example": "9689c9df-a313-4c5b-b71a-056c89b90978"
+                          },
+                          "usdRate": {
+                            "type": "number",
+                            "example": 0.85
+                          },
+                          "amount": {
+                            "type": "number",
+                            "example": 5000
+                          },
+                          "amountInUSD": {
+                            "type": "integer",
+                            "example": 4250
+                          },
+                          "fee": {
+                            "type": "integer",
+                            "example": 0
+                          },
+                          "feeInUs": {
+                            "type": "integer",
+                            "example": 0
+                          },
+                          "amountSettledInUsd": {
+                            "type": "null",
+                            "example": null
+                          },
+                          "amountSettled": {
+                            "type": "null",
+                            "example": null
+                          },
+                          "customer": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "email": {
+                                  "type": "string",
+                                  "example": "example@gmail.com"
+                                },
+                                "lastName": {
+                                  "type": "string",
+                                  "example": "John"
+                                },
+                                "firstName": {
+                                  "type": "string",
+                                  "example": "Doe"
+                                },
+                                "phoneNumber": {
+                                  "type": "integer",
+                                  "example": "07023456789"
+                                },
+                                "metadata": {
+                                  "type": "null",
+                                  "example": null
+                                },
+                                "status": {
+                                  "type": "string",
+                                  "example": "pending"
+                                },
+                                "paidAt": {
+                                  "type": "null",
+                                  "example": null
+                                },
+                                "settledAt": {
+                                  "type": "null",
+                                  "example": null
+                                },
+                                "cancelledAt": {
+                                  "type": "null",
+                                  "example": null
+                                },
+                                "createdAt": {
+                                  "type": "string",
+                                  "format": "date-time",
+                                  "example": "2026-03-21T20:07:33.000+01:00"
+                                },
+                                "updatedAt": {
+                                  "type": "string",
+                                  "format": "date-time",
+                                  "example": "2026-03-25T07:09:06Z"
+                                }
+                              }
+                            }
                           }
-
                         }
-                        
                       }
                     }
                   }
@@ -927,20 +1035,100 @@
     },
     "/orders/{reference}": {
       "get": {
-        "description": "Retrieve a single order",
+        "description": "Use this to retrieve a single order",
         "parameters": [
           {
             "name": "reference",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Order retrieved successfully"
+            "description": "Order retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Data retrived successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "recipientName": {
+                            "type": "string",
+                            "example": "bsuitetest llc"
+                          },
+                          "reference": {
+                            "type": "string",
+                            "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
+                          },
+                          "amount": {
+                            "type": "number",
+                            "example": 5000
+                          },
+                          "currencyCode": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Food payment"
+                          },
+                          "customer": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "email": {
+                                  "type": "string",
+                                  "example": "example@gmail.com"
+                                },
+                                "lastName": {
+                                  "type": "string",
+                                  "example": "John"
+                                },
+                                "firstName": {
+                                  "type": "string",
+                                  "example": "Doe"
+                                },
+                                "phoneNumber": {
+                                  "type": "integer",
+                                  "example": "07023456789"
+                                }
+                              }
+                            }
+                          },
+                          "metadata": {
+                            "timestamp": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2026-03-20T18:36:18Z"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "",
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -954,7 +1142,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "exampla": "9689c0df-a313-4c5b-b71a-056c89b90972"
             }
           }
         ],
@@ -966,22 +1155,28 @@
                 "type": "object",
                 "properties": {
                   "card_number": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "0343597395395357394307"
                   },
                   "card_expiry_month": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "03"
                   },
                   "card_expiry_year": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "26"
                   },
                   "card_cvv": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "276"
                   },
                   "card_holder_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Jhon Foe"
                   },
                   "card_pin": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "4283"
                   }
                 }
               }
@@ -990,7 +1185,44 @@
         },
         "responses": {
           "200": {
-            "description": "Payment processed"
+            "description": "Payment processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sucesss": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "paymentReference": {
+                          "type": "string",
+                          "example": "019d110e-aeca-769d-9385-83acbbdafef3"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "pending"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-03-20T18:36:18Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1004,7 +1236,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "019d110b-c47f-7b86-8f87-c18c70b24f9f"
             }
           }
         ],
