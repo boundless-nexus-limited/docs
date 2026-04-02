@@ -1,33 +1,56 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Get started using our available API endpoints'
 ---
 
 <Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
+  You can utilize this as an efficient means to test 
+  the API functionality and configurations on your end.
 </Note>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+The BoundlessPay API gives you programmatic access to a full suite of payment infrastructure — from accepting payments via card and bank transfer, to sending money across borders, managing sub-accounts, and running subscription billing.
+## Quick Actions
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+<CardGroup cols={3}>
+  <Card title="Authenticate" icon="key" href="/api-reference/authentication">
+    Generate your API keys and obtain an access token to start making requests.
+  </Card>
+  <Card title="Accept Payments" icon="credit-card" href="/api-reference/checkout/createanorder">
+    Create an order and collect payments via card or bank transfer.
+  </Card>
+  <Card title="Send Money" icon="paper-plane" href="api-reference/remittance/bankTransfer/initiatebanktransfer">
+    Initiate local and cross-border bank transfers for your users.
+  </Card>
+</CardGroup>
 
 ## Authentication
 
 All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+## Request & Response Format
+
+All request bodies must be sent as JSON with the `Content-Type: application/json` header. Every API response returns a consistent envelope:
+
+| Field | Type | Description |
+|---|---|---|
+| `success` | boolean | Whether the request was successful |
+| `message` | string | Human-readable status message |
+| `data` | object / array | The response payload |
+| `meta.timestamp` | string | ISO 8601 timestamp of the response |
+
+## Error Handling
+
+BoundlessPay uses standard HTTP status codes to indicate the outcome of a request:
+
+| Status Code | Meaning |
+|---|---|
+| `200` | Request succeeded |
+| `201` | Resource created successfully |
+| `400` | Bad request — check your request body |
+| `401` | Unauthorized — invalid or missing API key |
+| `403` | Forbidden — your account doesn't have access |
+| `404` | Resource not found |
+| `409` | Conflict — resource already exists |
+| `500` | Internal server error |
