@@ -1569,11 +1569,11 @@
                         "properties": {
                           "name": {
                             "type": "string",
-                            "example":"3line management Limited"
+                            "example": "3line management Limited"
                           },
                           "code": {
                             "type": "string",
-                            "example":"dyy10000001"
+                            "example": "dyy10000001"
                           }
                         }
                       }
@@ -1596,9 +1596,9 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "country_code",
-                  "bank_code",
-                  "account_number"
+                  "countryCode",
+                  "bankCode",
+                  "accountNumber"
                 ],
                 "properties": {
                   "countryCode": {
@@ -1744,7 +1744,7 @@
                           "type": "string",
                           "example": "pending"
                         },
-                        "currency_code": {
+                        "currencyCode": {
                           "type": "string",
                           "example": "NGN"
                         },
@@ -1757,9 +1757,9 @@
                     "meta": {
                       "type": "object",
                       "properties": {
-                        "timestamp":{
+                        "timestamp": {
                           "type": "string",
-                          "format":"date-time",
+                          "format": "date-time",
                           "example": "2026-03-15T20:07:33.000+01:00"
                         }
                       }
@@ -1792,7 +1792,7 @@
                     "type": "string",
                     "example": "NGA"
                   },
-                  "reference":{
+                  "reference": {
                     "type": "string",
                     "example": "your-transfer-referencex"
                   },
@@ -1811,7 +1811,7 @@
                         "type": "string",
                         "example": "Doe"
                       },
-                      "email":{
+                      "email": {
                         "type": "string",
                         "example": "johndoe@gmail.com"
                       },
@@ -1845,27 +1845,43 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "recipient_name": {
+                        "recipientName": {
                           "type": "string",
-                          "example": ""
+                          "example": "bsuitetest llc"
                         },
                         "reference": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "your-transfer-referencex"
                         },
                         "amount": {
-                          "type": "number"
+                          "type": "number",
+                          "example": 3000
                         },
-                        "currency_code": {
-                          "type": "string"
+                        "currencyCode": {
+                          "type": "string",
+                          "example": "NGN"
                         },
                         "url": {
-                          "type": "string"
+                          "type": "https://payments.dev.boundlesspay.com?ref=your-transfer-referencex"
                         },
                         "channels": {
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": "string",
+                            "example": [
+                              "card"
+                            ]
                           }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T13:36:18Z"
                         }
                       }
                     }
