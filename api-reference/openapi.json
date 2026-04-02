@@ -2040,32 +2040,79 @@
             "description": "Configuration options retrieved successfully",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "message": "Operation successful",
-                  "data": {
-                    "supportsAccountLookup": true,
-                    "bankListAvailable": true,
-                    "beneficiarySchema": [
-                      {
-                        "key": "accountNumber",
-                        "name": "Account Number",
-                        "type": "string"
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "example": {
+                      "success": {
+                        "type": "boolean",
+                        "example": true
                       },
-                      {
-                        "key": "bankCode",
-                        "name": "Bank",
-                        "type": "string"
+                      "message": {
+                        "type": "string",
+                        "example": "Operation successful"
                       },
-                      {
-                        "key": "accountName",
-                        "name": "Account Name",
-                        "type": "string"
+                      "data": {
+                        "type": "object",
+                        "properties": {
+                          "supportsAccountLookup": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "bankListAvailable": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "beneficiarySchema": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "key": {
+                                  "type": "string",
+                                  "example": "accountNumber"
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "example": "Account Number"
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                }
+                              }
+                            },
+                            "example": [
+                              {
+                                "key": "accountNumber",
+                                "name": "Account Number",
+                                "type": "string"
+                              },
+                              {
+                                "key": "bankCode",
+                                "name": "Bank",
+                                "type": "string"
+                              },
+                              {
+                                "key": "accountName",
+                                "name": "Account Name",
+                                "type": "string"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "meta": {
+                        "type": "object",
+                        "properties": {
+                          "timestamp": {
+                          "type": "string",
+                          "format":"date-time",
+                          "example":"2026-03-20T18:36:18Z"
+                          }
+                        }
                       }
-                    ]
-                  },
-                  "meta": {
-                    "timestamp": "2026-03-19T19:26:42.817Z"
+                    }
                   }
                 }
               }
