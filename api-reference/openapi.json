@@ -1912,17 +1912,41 @@
             "description": "Transfer status retrieved successfully",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "message": "Operation successful",
-                  "data": {
-                    "reference": "TX-1773947599640-1453",
-                    "status": "successful",
-                    "currency_code": "NGN",
-                    "amount": "500.00000000"
-                  },
-                  "meta": {
-                    "timestamp": "2026-03-19T19:50:10.817Z"
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "reference": {
+                          "type": "string",
+                          "example": "TX-1773947599640-1453"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "successful"
+                        },
+                        "currencyCode": {
+                          "type": "string",
+                          "example": "NGN"
+                        },
+                        "amount": {
+                          "type": "string",
+                          "example": "500.00000000"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "timestamp": "2026-03-30T19:50:10.817Z"
+                    }
                   }
                 }
               }
