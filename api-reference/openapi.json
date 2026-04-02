@@ -2445,9 +2445,9 @@
         }
       }
     },
-    "/subscriptions/{id}": {
+    "/subscription-plans/{id}": {
       "get": {
-        "description": "Retrieve details of a specific subscription by ID.",
+        "description": "Retrieve details of a specific subscription plan by ID.",
         "parameters": [
           {
             "name": "id",
