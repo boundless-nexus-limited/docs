@@ -181,6 +181,7 @@
           },
           {
             "group": "Endpoint examples",
+            "hidden": true,
             "pages": [
               "api-reference/endpoint/get",
               "api-reference/endpoint/create",
