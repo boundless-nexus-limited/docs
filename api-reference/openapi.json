@@ -7,7 +7,7 @@
   "paths": {
     "/v1/countries": {
       "get": {
-        "description": "Use this to retrive a list of supported countries",
+        "description": "Use this to retrieve a list of supported countries",
         "responses": {
           "200": {
             "description": "Successful response with list of countries",
@@ -156,6 +156,9 @@
                           },
                           "network": {
                             "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
                             "example": []
                           }
                         }
@@ -275,10 +278,12 @@
                     },
                     "meta": {
                       "type": "object",
-                      "timestamp": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2026-03-20T13:36:18Z"
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T13:36:18Z"
+                        }
                       }
                     }
                   }
@@ -321,7 +326,7 @@
                   },
                   "amount": {
                     "type": "integer",
-                    "description": "Amount qouted",
+                    "description": "Amount quoted",
                     "example": 1
                   }
                 }
@@ -395,10 +400,12 @@
                     },
                     "meta": {
                       "type": "object",
-                      "timestamp": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2026-03-20T18:36:18Z"
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T18:36:18Z"
+                        }
                       }
                     }
                   }
@@ -492,12 +499,7 @@
             }
           },
           "400": {
-            "description": "Invalid request (email already exists, invalid format, etc.)",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+            "description": "Invalid request (email already exists, invalid format, etc.)"
           },
           "401": {
             "description": "Unauthorized - missing or invalid credentials"
@@ -511,12 +513,11 @@
         }
       },
       "get": {
-        "description": "Retrieve a paginated list of sub-accounts belonging to the authenticated business. Optional filters supported.",
+        "description": "Retrieve a paginated list of sub-accounts belonging to the authenticated business.",
         "parameters": [
           {
             "name": "page",
             "in": "query",
-            "description": "Page number (starts from 1)",
             "required": false,
             "schema": {
               "type": "integer",
@@ -527,7 +528,6 @@
           {
             "name": "limit",
             "in": "query",
-            "description": "Number of items per page",
             "required": false,
             "schema": {
               "type": "integer",
@@ -762,12 +762,7 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "Sub-account not found or not accessible",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
+            "description": "Sub-account not found or not accessible"
           }
         }
       }
@@ -830,6 +825,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "success": {
                       "type": "boolean",
@@ -864,10 +860,18 @@
                         },
                         "channels": {
                           "type": "array",
-                          "example": "card"
+                          "items": {
+                            "type": "string"
+                          },
+                          "example": [
+                            "card"
+                          ]
                         }
-                      },
-                      "meta": {
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
                         "timestamp": {
                           "type": "string",
                           "format": "date-time",
@@ -887,13 +891,13 @@
       },
       "get": {
         "description": "Retrieve all orders",
-        "parameters": [],
         "responses": {
           "200": {
             "description": "Orders retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "success": {
                       "type": "boolean",
@@ -901,20 +905,134 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Data retrived successfully"
+                      "example": "Data retrieved successfully"
                     },
                     "data": {
                       "type": "array",
                       "items": {
                         "type": "object",
-                        "properties":{
-                          "id":{
-                            "type":"integer",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
                             "example": 19
+                          },
+                          "internalReference": {
+                            "type": "string",
+                            "example": "019d110b-c47f-7b86-8f87-c18c70b24f9f"
+                          },
+                          "reference": {
+                            "type": "string",
+                            "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Food payment"
+                          },
+                          "currencyCode": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "recipientName": {
+                            "type": "string",
+                            "example": "bsuitetest llc"
+                          },
+                          "userId": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "businessId": {
+                            "type": "string",
+                            "example": "9689c9df-a313-4c5b-b71a-056c89b90978"
+                          },
+                          "usdRate": {
+                            "type": "number",
+                            "example": 0.85
+                          },
+                          "amount": {
+                            "type": "number",
+                            "example": 5000
+                          },
+                          "amountInUSD": {
+                            "type": "integer",
+                            "example": 4250
+                          },
+                          "fee": {
+                            "type": "integer",
+                            "example": 0
+                          },
+                          "feeInUs": {
+                            "type": "integer",
+                            "example": 0
+                          },
+                          "amountSettledInUsd": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": null
+                          },
+                          "amountSettled": {
+                            "type": "string",
+                            "nullable": true,
+                            "example": null
+                          },
+                          "customer": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "email": {
+                                  "type": "string",
+                                  "example": "example@gmail.com"
+                                },
+                                "lastName": {
+                                  "type": "string",
+                                  "example": "John"
+                                },
+                                "firstName": {
+                                  "type": "string",
+                                  "example": "Doe"
+                                },
+                                "phoneNumber": {
+                                  "type": "string",
+                                  "example": "07023456789"
+                                },
+                                "metadata": {
+                                  "type": "string",
+                                  "nullable": true,
+                                  "example": null
+                                },
+                                "status": {
+                                  "type": "string",
+                                  "example": "pending"
+                                },
+                                "paidAt": {
+                                  "type": "string",
+                                  "nullable": true,
+                                  "example": null
+                                },
+                                "settledAt": {
+                                  "type": "string",
+                                  "nullable": true,
+                                  "example": null
+                                },
+                                "cancelledAt": {
+                                  "type": "string",
+                                  "nullable": true,
+                                  "example": null
+                                },
+                                "createdAt": {
+                                  "type": "string",
+                                  "format": "date-time",
+                                  "example": "2026-03-21T20:07:33.000+01:00"
+                                },
+                                "updatedAt": {
+                                  "type": "string",
+                                  "format": "date-time",
+                                  "example": "2026-03-25T07:09:06Z"
+                                }
+                              }
+                            }
                           }
-
                         }
-                        
                       }
                     }
                   }
@@ -927,20 +1045,100 @@
     },
     "/orders/{reference}": {
       "get": {
-        "description": "Retrieve a single order",
+        "description": "Use this to retrieve a single order",
         "parameters": [
           {
             "name": "reference",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Order retrieved successfully"
+            "description": "Order retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Data retrieved successfully"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "recipientName": {
+                            "type": "string",
+                            "example": "bsuitetest llc"
+                          },
+                          "reference": {
+                            "type": "string",
+                            "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
+                          },
+                          "amount": {
+                            "type": "number",
+                            "example": 5000
+                          },
+                          "currencyCode": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Food payment"
+                          },
+                          "customer": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "email": {
+                                  "type": "string",
+                                  "example": "example@gmail.com"
+                                },
+                                "lastName": {
+                                  "type": "string",
+                                  "example": "John"
+                                },
+                                "firstName": {
+                                  "type": "string",
+                                  "example": "Doe"
+                                },
+                                "phoneNumber": {
+                                  "type": "string",
+                                  "example": "07023456789"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T18:36:18Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -954,7 +1152,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "9689c0df-a313-4c5b-b71a-056c89b90972"
             }
           }
         ],
@@ -966,22 +1165,28 @@
                 "type": "object",
                 "properties": {
                   "card_number": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "0343597395395357394307"
                   },
                   "card_expiry_month": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "03"
                   },
                   "card_expiry_year": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "26"
                   },
                   "card_cvv": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "276"
                   },
                   "card_holder_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "John Doe"
                   },
                   "card_pin": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "4283"
                   }
                 }
               }
@@ -990,7 +1195,47 @@
         },
         "responses": {
           "200": {
-            "description": "Payment processed"
+            "description": "Payment processed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "paymentReference": {
+                          "type": "string",
+                          "example": "019d110e-aeca-769d-9385-83acbbdafef3"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "pending"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T18:36:18Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1004,13 +1249,86 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "019d110b-c47f-7b86-8f87-c18c70b24f9f"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Bank transfer initiated"
+            "description": "Bank transfer initiated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "paymentReference": {
+                          "type": "string",
+                          "example": "019d110b-c47f-7b86-8f87-c18c70b24f9f"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "pending"
+                        },
+                        "bankDetails": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "bankCodes": {
+                                "type": "string",
+                                "example": "018"
+                              },
+                              "bankName": {
+                                "type": "string",
+                                "example": "Access Bank"
+                              },
+                              "accountNumber": {
+                                "type": "string",
+                                "example": "0123456789"
+                              },
+                              "accountName": {
+                                "type": "string",
+                                "example": "Sample Business"
+                              },
+                              "amount": {
+                                "type": "integer",
+                                "example": 5000
+                              },
+                              "currencyCode": {
+                                "type": "string",
+                                "example": "NGN"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T18:36:18Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1024,7 +1342,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "9689c0df-a313-4c5b-b71a-056c89b90978"
             }
           },
           {
@@ -1032,13 +1351,66 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "019d110e-aeca-769d-9385-83acbbdafef3"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Payment status retrieved"
+            "description": "Payment status retrieved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "reference": {
+                          "type": "string",
+                          "example": "9689c0df-a313-4a5b-b71a-056c89b90977"
+                        },
+                        "paymentReference": {
+                          "type": "string",
+                          "example": "019d110b-c47f-7b86-8f87-c18c70b24f9f"
+                        },
+                        "currencyCode": {
+                          "type": "string",
+                          "example": "NGN"
+                        },
+                        "amount": {
+                          "type": "integer",
+                          "example": 5000
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "success"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T18:36:18Z"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1046,7 +1418,6 @@
     "/payments/card": {
       "post": {
         "description": "Initiate direct card payment",
-        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1114,7 +1485,6 @@
     "/payments/bank-deposit": {
       "post": {
         "description": "Initiate bank deposit payment",
-        "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
@@ -1164,7 +1534,7 @@
     },
     "/transfers/banks/{countryCode}": {
       "get": {
-        "description": "Get Banks",
+        "description": "Retrieves a list of Banks.",
         "parameters": [
           {
             "name": "countryCode",
@@ -1172,9 +1542,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "examples": [
-                "NGA"
-              ]
+              "example": "NGA"
             }
           }
         ],
@@ -1187,10 +1555,12 @@
                   "type": "object",
                   "properties": {
                     "success": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "example": true
                     },
                     "message": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "Operation Successful"
                     },
                     "data": {
                       "type": "array",
@@ -1198,10 +1568,12 @@
                         "type": "object",
                         "properties": {
                           "name": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "3line management Limited"
                           },
                           "code": {
-                            "type": "string"
+                            "type": "string",
+                            "example": "dyy10000001"
                           }
                         }
                       }
@@ -1216,7 +1588,7 @@
     },
     "/transfers/account-lookup": {
       "post": {
-        "description": "Account Name Lookup",
+        "description": "Use this to lookup an account",
         "requestBody": {
           "required": true,
           "content": {
@@ -1224,28 +1596,22 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "country_code",
-                  "bank_code",
-                  "account_number"
+                  "countryCode",
+                  "bankCode",
+                  "accountNumber"
                 ],
                 "properties": {
-                  "country_code": {
+                  "countryCode": {
                     "type": "string",
-                    "examples": [
-                      "NGA"
-                    ]
+                    "example": "NGA"
                   },
-                  "bank_code": {
+                  "bankCode": {
                     "type": "string",
-                    "examples": [
-                      "090483"
-                    ]
+                    "example": "090483"
                   },
-                  "account_number": {
+                  "accountNumber": {
                     "type": "string",
-                    "examples": [
-                      "2120894439"
-                    ]
+                    "example": "2120894439"
                   }
                 }
               }
@@ -1261,10 +1627,12 @@
                   "type": "object",
                   "properties": {
                     "success": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "example": true
                     },
                     "message": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "Operation Successful"
                     },
                     "data": {
                       "type": "object",
@@ -1273,6 +1641,14 @@
                           "type": "string",
                           "example": "John Doe"
                         }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "timestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-03-20T18:36:18Z"
                       }
                     }
                   }
@@ -1285,7 +1661,7 @@
     },
     "/transfers/bank": {
       "post": {
-        "description": "Initiate Bank Transfer",
+        "description": "Use this to initiate a bank transfer",
         "requestBody": {
           "required": true,
           "content": {
@@ -1299,50 +1675,36 @@
                   "beneficiaryDetails"
                 ],
                 "properties": {
-                  "sourceCurrencyCode": {
-                    "type": "string",
-                    "examples": [
-                      "NGN"
-                    ]
-                  },
                   "recipientCountryCode": {
                     "type": "string",
-                    "examples": [
-                      "NGA"
-                    ]
+                    "example": "NGA"
+                  },
+                  "reference": {
+                    "type": "string",
+                    "example": "your-transfer-reference"
                   },
                   "amount": {
                     "type": "number",
-                    "examples": [
-                      50000
-                    ]
+                    "example": 50000
                   },
                   "note": {
                     "type": "string",
-                    "examples": [
-                      "Test send"
-                    ]
+                    "example": "Test send"
                   },
                   "beneficiaryDetails": {
                     "type": "object",
                     "properties": {
                       "bankCode": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "090483"
                       },
                       "accountNumber": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "2120894439"
                       },
                       "accountName": {
-                        "type": "string"
-                      },
-                      "firstName": {
-                        "type": "string"
-                      },
-                      "lastName": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string"
+                        "type": "string",
+                        "example": "John Doe"
                       }
                     }
                   }
@@ -1360,28 +1722,45 @@
                   "type": "object",
                   "properties": {
                     "success": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "example": true
                     },
                     "message": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "Operation Successful"
                     },
                     "data": {
                       "type": "object",
                       "properties": {
                         "merchant_reference": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "your-transfer-reference"
                         },
                         "reference": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "TX-1773947599640-1453"
                         },
                         "status": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "pending"
                         },
-                        "currency_code": {
-                          "type": "string"
+                        "currencyCode": {
+                          "type": "string",
+                          "example": "NGN"
                         },
                         "amount": {
-                          "type": "number"
+                          "type": "number",
+                          "example": 50000
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-15T20:07:33.000+01:00"
                         }
                       }
                     }
@@ -1395,7 +1774,7 @@
     },
     "/transfers/preview": {
       "post": {
-        "description": "Preview Bank Transfer",
+        "description": "Use this to preview a bank transfer",
         "requestBody": {
           "required": true,
           "content": {
@@ -1403,21 +1782,44 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "recipient_country_code",
-                  "amount"
+                  "recipientCountryCode",
+                  "reference",
+                  "amount",
+                  "customer"
                 ],
                 "properties": {
-                  "recipient_country_code": {
+                  "recipientCountryCode": {
                     "type": "string",
-                    "examples": [
-                      "NGA"
-                    ]
+                    "example": "NGA"
+                  },
+                  "reference": {
+                    "type": "string",
+                    "example": "your-transfer-referencex"
                   },
                   "amount": {
                     "type": "number",
-                    "examples": [
-                      3000
-                    ]
+                    "example": 3000
+                  },
+                  "customer": {
+                    "type": "object",
+                    "properties": {
+                      "firstName": {
+                        "type": "string",
+                        "example": "John"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "example": "Doe"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "johndoe@gmail.com"
+                      },
+                      "phoneNumber": {
+                        "type": "string",
+                        "example": "090123456789"
+                      }
+                    }
                   }
                 }
               }
@@ -1433,34 +1835,53 @@
                   "type": "object",
                   "properties": {
                     "success": {
-                      "type": "boolean"
+                      "type": "boolean",
+                      "example": true
                     },
                     "message": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "Operation Successful"
                     },
                     "data": {
                       "type": "object",
                       "properties": {
-                        "recipient_name": {
-                          "type": "string"
+                        "recipientName": {
+                          "type": "string",
+                          "example": "bsuitetest llc"
                         },
                         "reference": {
-                          "type": "string"
+                          "type": "string",
+                          "example": "your-transfer-referencex"
                         },
                         "amount": {
-                          "type": "number"
+                          "type": "number",
+                          "example": 3000
                         },
-                        "currency_code": {
-                          "type": "string"
+                        "currencyCode": {
+                          "type": "string",
+                          "example": "NGN"
                         },
                         "url": {
-                          "type": "string"
+                          "type": "https://payments.dev.boundlesspay.com?ref=your-transfer-referencex"
                         },
                         "channels": {
                           "type": "array",
                           "items": {
-                            "type": "string"
+                            "type": "string",
+                            "example": [
+                              "card"
+                            ]
                           }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T13:36:18Z"
                         }
                       }
                     }
@@ -1482,9 +1903,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "examples": [
-                "TX-1773947599640-1453"
-              ]
+              "example": "TX-1773947599640-1453"
             }
           }
         ],
@@ -1493,21 +1912,41 @@
             "description": "Transfer status retrieved successfully",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "message": "Operation successful",
-                  "data": {
-                    "success": true,
-                    "message": "Query successful",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation successful"
+                    },
                     "data": {
-                      "reference": "TX-1773947599640-1453",
-                      "status": "successful",
-                      "currency_code": "NGN",
-                      "amount": "500.00000000"
+                      "type": "object",
+                      "properties": {
+                        "reference": {
+                          "type": "string",
+                          "example": "TX-1773947599640-1453"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "successful"
+                        },
+                        "currencyCode": {
+                          "type": "string",
+                          "example": "NGN"
+                        },
+                        "amount": {
+                          "type": "string",
+                          "example": "500.00000000"
+                        }
+                      }
+                    },
+                    "meta": {
+                      "timestamp": "2026-03-30T19:50:10.817Z"
                     }
-                  },
-                  "meta": {
-                    "timestamp": "2026-03-19T19:50:10.817Z"
                   }
                 }
               }
@@ -1524,37 +1963,56 @@
             "description": "Supported countries retrieved successfully",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "message": "Operation successful",
-                  "data": [
-                    {
-                      "name": "Nigeria",
-                      "code": "NGA",
-                      "currency_code": "NGN",
-                      "channels": [
-                        "bank"
-                      ]
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
                     },
-                    {
-                      "name": "United Kingdom",
-                      "code": "GBR",
-                      "currency_code": "GBP",
-                      "channels": [
-                        "bank"
-                      ]
+                    "message": {
+                      "type": "string",
+                      "example": "Operation Successful"
                     },
-                    {
-                      "name": "United States",
-                      "code": "USA",
-                      "currency_code": "USD",
-                      "channels": [
-                        "bank"
-                      ]
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "Nigeria"
+                          },
+                          "code": {
+                            "type": "string",
+                            "example": "NGA"
+                          },
+                          "currency_code": {
+                            "type": "string",
+                            "example": "NGN"
+                          },
+                          "channels": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": [
+                              "bank"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-19T19:26:19.577Z"
+                        }
+                      }
                     }
-                  ],
-                  "meta": {
-                    "timestamp": "2026-03-19T19:26:19.577Z"
                   }
                 }
               }
@@ -1573,9 +2031,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "examples": [
-                "NGA"
-              ]
+              "example": "NGA"
             }
           }
         ],
@@ -1584,32 +2040,77 @@
             "description": "Configuration options retrieved successfully",
             "content": {
               "application/json": {
-                "example": {
-                  "success": true,
-                  "message": "Operation successful",
-                  "data": {
-                    "supportsAccountLookup": true,
-                    "bankListAvailable": true,
-                    "beneficiarySchema": [
-                      {
-                        "key": "accountNumber",
-                        "name": "Account Number",
-                        "type": "string"
-                      },
-                      {
-                        "key": "bankCode",
-                        "name": "Bank",
-                        "type": "string"
-                      },
-                      {
-                        "key": "accountName",
-                        "name": "Account Name",
-                        "type": "string"
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Operation successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "supportsAccountLookup": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "bankListAvailable": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "beneficiarySchema": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "key": {
+                                "type": "string",
+                                "example": "accountNumber"
+                              },
+                              "name": {
+                                "type": "string",
+                                "example": "Account Number"
+                              },
+                              "type": {
+                                "type": "string",
+                                "example": "string"
+                              }
+                            }
+                          },
+                          "example": [
+                            {
+                              "key": "accountNumber",
+                              "name": "Account Number",
+                              "type": "string"
+                            },
+                            {
+                              "key": "bankCode",
+                              "name": "Bank",
+                              "type": "string"
+                            },
+                            {
+                              "key": "accountName",
+                              "name": "Account Name",
+                              "type": "string"
+                            }
+                          ]
+                        }
                       }
-                    ]
-                  },
-                  "meta": {
-                    "timestamp": "2026-03-19T19:26:42.817Z"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-03-20T18:36:18Z"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -1628,9 +2129,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "examples": [
-                1
-              ]
+              "example": 1
             }
           },
           {
@@ -1639,9 +2138,7 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "examples": [
-                100
-              ]
+              "example": 100
             }
           }
         ],
@@ -1823,7 +2320,7 @@
         "description": "Retrieve a list of subscription payments.",
         "responses": {
           "200": {
-            "description": "successfully"
+            "description": "Retrieved successfully"
           }
         }
       }
@@ -1843,7 +2340,7 @@
         ],
         "responses": {
           "200": {
-            "description": "successfully"
+            "description": "Retrieved successfully"
           }
         }
       }
@@ -1863,14 +2360,14 @@
         ],
         "responses": {
           "200": {
-            "description": "successfully"
+            "description": "Retried successfully"
           }
         }
       }
     },
     "/subscriptions": {
       "get": {
-        "description": "Retrieve a paginated list of subscriptions with optional filters for customerReference and subscriptionPlanId.",
+        "description": "Retrieve a paginated list of subscriptions.",
         "parameters": [
           {
             "name": "customerReference",
@@ -1914,7 +2411,7 @@
         }
       },
       "post": {
-        "description": "Create a new subscription for a customer using a subscription plan and card.",
+        "description": "Create a new subscription for a customer.",
         "requestBody": {
           "required": true,
           "content": {
@@ -1946,9 +2443,9 @@
         }
       }
     },
-    "/subscriptions/{id}": {
+    "/subscription/{id}": {
       "get": {
-        "description": "Retrieve details of a specific subscription by ID.",
+        "description": "Retrieve details of a specific subscription plan by ID.",
         "parameters": [
           {
             "name": "id",

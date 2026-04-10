@@ -114,9 +114,7 @@
                       "api-reference/remittance/bankTransfer/accountnamelookup",
                       "api-reference/remittance/bankTransfer/initiatebanktransfer",
                       "api-reference/remittance/bankTransfer/previewbanktransfer",
-                      "api-reference/remittance/bankTransfer/getbanktransferstatus",
-                      "api-reference/remittance/bankTransfer/supportedcountries",
-                      "api-reference/remittance/bankTransfer/getdestination"
+                      "api-reference/remittance/bankTransfer/getbanktransferstatus"
                     ]
                   },
                   "api-reference/remittance/getdestinationconfiguration",
