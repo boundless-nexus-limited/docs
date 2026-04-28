@@ -4,6 +4,18 @@
     "title": "BoundlessPay API",
     "version": "1.0.0"
   },
+
+  "servers": [
+    {
+      "url": "http://portal.dev.boundlesspay.com",
+      "description": "Developement Server"
+    },
+    {
+      "url": "http://portal.boundlesspay.com",
+      "description": "Production Servers"
+    }
+  ],
+
   "paths": {
     "/v1/countries": {
       "get": {
